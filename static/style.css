@@ -1,0 +1,72 @@
+@font-face {
+  font-family: "Apercu";
+  src: url("fonts/apercu_bold_pro.otf") format("opentype");
+  font-weight: bold;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Apercu";
+  src: url("fonts/apercu_regular_pro.otf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+}
+body {
+  background-color: white;
+}
+
+/* Header */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+}
+
+/* Logo */
+.logo {
+  width: 20px !important; /* Adjust size */
+  height: auto !important;
+  display: block;
+}
+
+/* Navigation */
+nav ul {
+  display: flex;
+  list-style: none;
+}
+
+nav ul li {
+  margin-left: 20px;
+}
+
+nav ul li a {
+  text-decoration: none;
+  color: black;
+  font-size: 18px;
+}
+
+/* Hero Section */
+.hero {
+  margin-top: 50px;
+  text-align: left;
+  font-family: "Apercu", serif;
+}
+
+.symbol {
+  color: #0B31D2;
+  font-size: 30px;
+  font-weight: bold;
+}
+
+h1 {
+  color: #0B31D2;
+  font-size: 36px;
+  font-weight: bold;
+}
+
+p {
+  color: #0B31D2;
+  font-size: 18px;
+  font-weight: normal;
+  max-width: 600px;
+}
