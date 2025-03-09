@@ -1,23 +1,40 @@
 {% extends 'base.html' %}
 
 {% block header %}
-    <header>
-        <img src="{{ url_for('static', filename='images/dna-icon.svg') }}" alt="Logo" class="logo">
+<header class="site-header">
+    <img
+        src="{{ url_for('static', filename='images/dna-icon.svg') }}"
+        alt="Gene Knowledge Logo"
+        class="logo"
+    />
 
-        <nav>
-            <ul>
-                <li><a href="#">Database</a></li>
-                <li><a href="#">Information</a></li>
-                <li><a href="#">About</a></li>
-            </ul>
-        </nav>
-    </header>
+    <nav class="main-nav">
+        <ul>
+            <li><a href="#">Database</a></li>
+            <li><a href="#">Information</a></li>
+            <li><a href="#">About</a></li>
+        </ul>
+    </nav>
+</header>
 {% endblock %}
 
-{% block content %}
-    <section class="hero">
+{% block hero %}
+<section class="hero">
+    <div class="hero-title">
         <span class="symbol">&gt;</span>
         <h1><strong>Gene knowledge at your fingertips.</strong></h1>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-    </section>
+    </div>
+    <div class="hero-text-box">
+        <p class="hero-text">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+            eiusmod tempor incididunt ut labore et dolore magna aliqua.
+        </p>
+    </div>
+</section>
+{% endblock %}
+
+{% block plots %}
+<section class="plot-section">
+    <div class="sentinel"></div>
+</section>
 {% endblock %}
