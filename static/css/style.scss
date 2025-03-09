@@ -1,63 +1,110 @@
 @import 'fonts';
 @import 'colors';
 
-body {
-    background-color: white;
+.site-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.5rem 2rem;
+  background: white;
+
+  .logo {
+    height: 40px;
+    width: auto;
+  }
+
+  .main-nav {
+    ul {
+      display: flex;
+      list-style: none;
+      gap: 10rem;
+      margin-right: 3rem;
+      padding: 0;
+
+      li a {
+        text-decoration: none;
+        font-family: "Iosevka Slab", serif;
+        font-size: 1.5rem;
+        color: black;
+        transition: color 0.2s ease-in-out;
+
+        &:hover {
+          color: $persian_blue;
+        }
+      }
+    }
+  }
 }
 
-/* Header */
-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px;
-}
-
-/* Logo */
-.logo {
-    width: 20px !important; /* Adjust size */
-    height: auto !important;
-    display: block;
-}
-
-/* Navigation */
-nav ul {
-    display: flex;
-    list-style: none;
-}
-
-nav ul li {
-    margin-left: 20px;
-}
-
-nav ul li a {
-    text-decoration: none;
-    color: black;
-    font-size: 18px;
-}
-
-/* Hero Section */
 .hero {
-    margin-top: 50px;
-    text-align: left;
-    font-family: 'Apercu', serif;
-}
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin: 15rem auto 4rem;
+  max-width: 1200px;
 
-.symbol {
-    color: $persian_blue;
-    font-size: 30px;
+  padding-left: 14rem;
+
+  transform: scale(1.2);
+
+  .hero-title {
+    display: flex;
+    align-items: baseline;
+    margin-bottom: 1rem;
+
+    font-family: Iosevka, monospace;
     font-weight: bold;
+    font-size: 2.5rem;
+    letter-spacing: -0.2rem;
+    color: $persian_blue;
+
+    .symbol {
+      margin-right: 1.5rem;
+    }
+
+    h1 {
+      margin: 0;
+    }
+  }
+
+  .hero-text-box {
+    display: flex;
+    align-items: flex-start;
+    margin-left: 2.7rem;
+
+    .hero-text {
+      font-family: "Apercu", serif;
+      font-size: 1.4rem;
+
+      max-width: 600px;
+      line-height: 1.5;
+      color: #333;
+    }
+  }
 }
 
-h1 {
-    color: $persian_blue;
-    font-size: 36px;
-    font-weight: bold;
-}
+.plot-section {
+  position: relative;
+  z-index: 10;
+  background: white;
+  min-height: 200vh;
+  margin-top: -500px;
+  padding-top: 100px;
+  transition: transform 0.5s ease, opacity 0.5s ease;
+  transform: translateY(50px);
+  opacity: 0;
 
-p {
-    color: $persian_blue;
-    font-size: 18px;
-    font-weight: normal;
-    max-width: 600px;
+  &.active {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  .sentinel {
+    position: absolute;
+    top: 40%;
+    left: 0;
+    width: 100%;
+    height: 50px;
+  }
+
 }
