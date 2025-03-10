@@ -36,5 +36,9 @@
 {% block plots %}
 <section class="plot-section">
     <div class="sentinel"></div>
+    <div id="plot">
+        {{ div|safe }}
+        {{ script|safe }}
+    </div>
 </section>
 {% endblock %}
