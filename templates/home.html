@@ -36,9 +36,22 @@
 {% block plots %}
 <section class="plot-section">
     <div class="sentinel"></div>
-    <div id="plot">
+
+    <!-- Main Volcano Plot -->
+    <div id="volcano-plot">
         {{ div|safe }}
         {{ script|safe }}
     </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            console.log("DOM Loaded, waiting for Bokeh canvas...");
+
+            const bokehPlot = document.querySelector("#volcano-plot");
+            if (!bokehPlot) {
+                console.error("Bokeh plot not found.");
+            }
+        });
+    </script>
 </section>
 {% endblock %}
