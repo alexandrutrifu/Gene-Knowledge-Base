@@ -49,25 +49,27 @@ html, body {
   flex-direction: column;
   align-items: flex-start;
   margin: 15rem auto 4rem;
-  max-width: 1200px;
+  max-width: 800px;
 
-  padding-left: 14rem;
+  //padding-left: 10rem;
 
   transform: scale(1.2);
 
   .hero-title {
     display: flex;
-    align-items: baseline;
+    align-items: center;
     margin-bottom: 1rem;
 
     font-family: Iosevka, monospace;
     font-weight: bold;
     font-size: 2.5rem;
+    text-align: center;
     letter-spacing: -0.2rem;
     color: $persian_blue;
 
     .symbol {
-      margin-right: 1.5rem;
+      margin-bottom: 4rem;
+      transform: scale(1.4);
     }
 
     h1 {
@@ -86,7 +88,7 @@ html, body {
 
       max-width: 600px;
       line-height: 1.5;
-      color: $persian_blue;
+      color: #191919;
     }
   }
 }
@@ -120,10 +122,15 @@ html, body {
 
   #volcano-plot {
     flex: 2;
-    display: block;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.8s ease-in-out; // Smooth slide transition
+    transform: translateX(0) translateY(-40rem); // Initially centered
 
-
-    margin-left: 10rem;
+    &.shift-left {
+        transform: translateX(-20%) translateY(-40rem); // Moves the plot to the left
+    }
 }
 
   #lens-container {
