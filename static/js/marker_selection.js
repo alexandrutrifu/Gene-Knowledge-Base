@@ -67,6 +67,13 @@ if (indices.length > 0) {
     if (plotContainer) {
         plotContainer.classList.add("shift-left");
     }
+
+    // Slide Gene Info Box
+    var geneInfoBox = document.getElementById("gene-info-box");
+    if (geneInfoBox) {
+        geneInfoBox.classList.add("shift-left");
+    }
+
 } else {
     // No marker selected = Zoom out
     if (x_range.orig_start !== undefined) {
