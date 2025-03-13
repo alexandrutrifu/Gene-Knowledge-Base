@@ -1,14 +1,10 @@
-from data_interaction import *
-
 from bokeh.plotting import figure, output_file, show
 from bokeh.embed import components
 from bokeh.models import ColumnDataSource, HoverTool, TapTool, CustomJS, LogColorMapper, ColorBar
 from bokeh.palettes import Blues9, linear_palette
 
 
-def generate_volcano_plot():
-	df = get_dataframe("s4b_limma")
-
+def generate_volcano_plot(df):
 	# Create density mapping for data concentration in the plot
 	density = get_density_map(df)
 
