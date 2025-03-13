@@ -1,6 +1,4 @@
-import pandas as pd
-import sqlite3
-import numpy as np
+from data_interaction import *
 
 from bokeh.plotting import figure, output_file, show
 from bokeh.embed import components
@@ -8,12 +6,8 @@ from bokeh.models import ColumnDataSource, HoverTool, TapTool, CustomJS, LogColo
 from bokeh.palettes import Blues9, linear_palette
 
 
-def load_js_callback(filename):
-	with open(filename, 'r') as file:
-		return file.read()
-
 def generate_volcano_plot():
-	df = get_sql_data("s4b_limma")
+	df = get_dataframe("s4b_limma")
 
 	# Create density mapping for data concentration in the plot
 	density = get_density_map(df)
@@ -70,7 +64,6 @@ def generate_volcano_plot():
 
 	return script, div
 
-
 def get_density_map(df):
 	# Create density histogram
 	xbins = 200
@@ -91,19 +84,3 @@ def get_density_map(df):
 	density[in_range] = counts[xidx[in_range], yidx[in_range]]
 
 	return density
-
-
-def get_sql_data(table_name):
-	con = sqlite3.connect('database/gene-knowledge-db')
-
-	# Read the original database
-	cursor = con.cursor()
-	df = pd.read_sql_query(f"SELECT * FROM {table_name}", con)
-
-	# Adjust the p-value to be negative log10
-	df['adj.P.Val'] = -1 * df['adj.P.Val'].apply(np.log10)
-
-	# Rename problematic column name
-	df.rename(columns={'adj.P.Val': 'adj_P_Val'}, inplace=True)
-
-	return df
