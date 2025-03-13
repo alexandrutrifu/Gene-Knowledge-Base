@@ -12,17 +12,17 @@ def load_js_callback(filename):
 	with open(filename, 'r') as file:
 		return file.read()
 
-def generate_plot():
-	data, df = get_sql_data()
+def generate_volcano_plot():
+	df = get_sql_data("s4b_limma")
 
 	# Create density mapping for data concentration in the plot
-	density = get_density_map(data, df)
+	density = get_density_map(df)
 
 	# Attach the density values to our dataframe
 	# The density is adjusted by 2 to make the plot more readable
-	data['density'] = density + 2
+	df['density'] = density + 2
 
-	source = ColumnDataSource(data)
+	source = ColumnDataSource(df)
 
 	# Create a 256-color blue gradient from light (low) to dark (high)
 	blue_palette = linear_palette(Blues9, 9)
@@ -30,14 +30,14 @@ def generate_plot():
 	# Create a color mapper from density values
 	color_mapper = LogColorMapper(
 		palette=blue_palette,
-		low=data["density"].min(),
-		high=data["density"].max()
+		low=df["density"].min(),
+		high=df["density"].max()
 	)
 
 	p = figure(title="Volcano plot", x_axis_label='log2 fold change', y_axis_label='-log10 p-value',
 			   width=800, height=800)
 
-	p.scatter(x='logFC', y='adjPVal', source=source, fill_alpha=0.8,
+	p.scatter(x='logFC', y='adj_P_Val', source=source, fill_alpha=0.8,
 			  size=5, marker='circle', color={'field': 'density', 'transform': color_mapper})
 	p.background_fill_color = None
 	p.border_fill_color = None
@@ -49,9 +49,9 @@ def generate_plot():
 	# Add hover tool
 	hover = HoverTool()
 	hover.tooltips = [
-		("Gene", "@Gene"),
+		("Gene", "@EntrezGeneSymbol"),
 		("logFC", "@logFC"),
-		("adj.P.Val", "@adjPVal")
+		("adj.P.Val", "@adj_P_Val")
 	]
 
 	p.add_tools(hover)
@@ -59,7 +59,7 @@ def generate_plot():
 	p.add_tools(TapTool())
 
 	# JavaScript callback to update DOM when a point is clicked
-	zoom_js_code = load_js_callback('static/js/zoom.js')
+	zoom_js_code = load_js_callback('static/js/marker_selection.js')
 	callback = CustomJS(args=dict(src=source, x_range=p.x_range, y_range=p.y_range),
 						code=zoom_js_code)
 
@@ -71,17 +71,15 @@ def generate_plot():
 	return script, div
 
 
-def get_density_map(data, df):
+def get_density_map(df):
 	# Create density histogram
-	# Number of bins in each dimension (tune as needed)
 	xbins = 200
 	ybins = 200
 
-	# Create a new plot
-	counts, xedges, yedges = np.histogram2d(data['logFC'], data['adjPVal'], bins=(xbins, ybins))
+	counts, xedges, yedges = np.histogram2d(df['logFC'], df['adj_P_Val'], bins=(xbins, ybins))
 
-	xidx = np.searchsorted(xedges, data['logFC'])
-	yidx = np.searchsorted(yedges, data['adjPVal'])
+	xidx = np.searchsorted(xedges, df['logFC'])
+	yidx = np.searchsorted(yedges, df['adj_P_Val'])
 
 	in_range = (
 			(xidx >= 0) & (xidx < xbins) &
@@ -95,18 +93,17 @@ def get_density_map(data, df):
 	return density
 
 
-def get_sql_data():
+def get_sql_data(table_name):
 	con = sqlite3.connect('database/gene-knowledge-db')
 
 	# Read the original database
 	cursor = con.cursor()
-	df = pd.read_sql_query("SELECT * FROM s4b_limma", con)
+	df = pd.read_sql_query(f"SELECT * FROM {table_name}", con)
 
-	# Get plot data column
-	data = {
-		'Gene': df['EntrezGeneSymbol'],
-		'logFC': df['logFC'],
-		'adjPVal': -1 * df['adj.P.Val'].apply(np.log10)
-	}
+	# Adjust the p-value to be negative log10
+	df['adj.P.Val'] = -1 * df['adj.P.Val'].apply(np.log10)
 
-	return data, df
+	# Rename problematic column name
+	df.rename(columns={'adj.P.Val': 'adj_P_Val'}, inplace=True)
+
+	return df
