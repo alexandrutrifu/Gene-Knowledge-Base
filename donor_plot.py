@@ -7,6 +7,13 @@ from data_interaction import get_donor_data
 
 
 def get_age_comparison_plot(df, gene_name):
+	""" Compares protein concentration values in different age groups through a box plot.
+
+	:param df: Dataframe to get donor samples from.
+	:param gene_name: Gene for which to inspect the samples.
+	:return: Script/Div HTML elements for the box plot.
+	"""
+
 	# Get protein concentration values in young/old donor samples
 	yd_values, od_values = get_donor_data(df, gene_name)
 
@@ -25,6 +32,15 @@ def get_age_comparison_plot(df, gene_name):
 	show(p)
 
 def create_box_plot(fig, sample_values, category, fill_color):
+	""" Renders the box plot corresponding to the provided donor sample.
+
+	:param fig: Bokeh figure to plot inside.
+	:param sample_values: Donor sample values.
+	:param category: Target age group.
+	:param fill_color: Fill color for the box plot.
+	:return:
+	"""
+	
 	# Get series from value lists
 	series = pd.to_numeric(pd.Series(sample_values))
 
