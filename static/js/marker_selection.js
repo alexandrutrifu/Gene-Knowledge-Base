@@ -1,6 +1,75 @@
 const indices = src.selected.indices;
+const plot_section = document.querySelector('.plot-section');
 
-const plotSection = document.querySelector('.plot-section');
+// Monitor active fetch requests through global variable
+let active_fetch_controller = null
+
+// Gene Info Box element
+const gene_info_container = document.getElementById("gene-info-box");
+
+function fetchGeneInfo(gene_id, gene_info_text_box) {
+	// Abort previously active fetch requests
+	if (active_fetch_controller) {
+		active_fetch_controller.abort();
+	}
+
+	active_fetch_controller = new AbortController();
+	const signal = active_fetch_controller.signal;
+
+	// Fetch gene information from Flask backend
+	fetch('/gene/' + gene_id, {signal})
+		.then(response => {
+			const reader = response.body.getReader();
+			const decoder = new TextDecoder();
+			let generated_info = '';
+
+			// Keep track of bold enclosures
+			let openBold = false;
+
+			function readStream() {
+				reader.read().then(({done, value}) => {
+					if (done) {
+						return;
+					}
+
+					// Read the next streamed text chunk
+					let chunk = decoder.decode(value, {stream: true});
+
+					// Create a new span block to fade in the text
+					let span = document.createElement("span");
+
+					if (chunk.includes("**")) {
+						openBold = !openBold;
+						chunk = " ";
+					}
+
+					if (openBold) {
+						span.style.fontWeight = "bold";
+					}
+
+					span.textContent = chunk;
+					span.classList.add("fade-in");
+
+					// Append new text span to textbox
+					gene_info_text_box.appendChild(span);
+
+					if (chunk.includes("\n")) {
+						let spacer = document.createElement("div");
+
+						spacer.style.height = "1em";
+
+						gene_info_text_box.appendChild(spacer);
+					}
+
+					// Read next stream chunk
+					readStream();
+				})
+			}
+
+			readStream();
+		})
+		.catch(error => console.error("Error: ", error));
+}
 
 // Save original axis ranges
 if (x_range.orig_start === undefined) {
@@ -65,20 +134,17 @@ if (indices.length > 0) {
 
 	animateZoomIn();
 
-	if (plotSection) {
-		plotSection.classList.add("shift-left");
+	if (plot_section) {
+		plot_section.classList.add("shift-left");
 	}
 
-	// Gene Info Box
-	var geneInfoBox = document.getElementById("gene-info-box");
-
-	if (geneInfoBox) {
+	if (gene_info_container) {
 		// Opacity -> 1
-		geneInfoBox.classList.add("active");
+		gene_info_container.classList.add("active");
 
 		// Update content based on selected gene
-		geneInfoBox.innerHTML = `
-			<div class="gene-header">
+		gene_info_container.innerHTML = `
+			<div class="gene-header fade-in">
 				<div class="dna-icon-div">
 					<img src="/static/images/dna-icon-gene-box.svg"
 						alt="DNA SVG" class="dna-icon">
@@ -93,39 +159,9 @@ if (indices.length > 0) {
 		`;
 
 		// Get gene information div element to append text in
-		let geneInfoTextBox = geneInfoBox.querySelector(".gene-info");
+		let gene_info_text_box = gene_info_container.querySelector(".gene-info");
 
-		// Fetch gene information from Flask backend
-		fetch('/gene/' + gene_id)
-			.then(response => {
-				const reader = response.body.getReader();
-				const decoder = new TextDecoder();
-				let generated_info = '';
-
-				function readStream() {
-					reader.read().then(({done, value}) => {
-						if (done) {
-							return;
-						}
-
-						// Read the next streamed text chunk
-						let chunk = decoder.decode(value, {stream: true});
-
-						// Create a new span block to fade in the text
-						let span = document.createElement("span");
-						span.textContent = chunk;
-						span.classList.add("fade-in");
-
-						// Append new text span to textbox
-						geneInfoTextBox.appendChild(span);
-
-						readStream();
-					})
-				}
-
-				readStream();
-			})
-			.catch(error => console.error("Error: ", error));
+		fetchGeneInfo(gene_id, gene_info_text_box);
 	}
 
 } else {
@@ -148,21 +184,33 @@ if (indices.length > 0) {
 
 		function animateZoomOut() {
 			current_step++;
+
+			// Interpolation factor
 			var t = current_step / steps;
+
 			x_range.start = init_x_start + t * (final_x_start - init_x_start);
 			x_range.end = init_x_end + t * (final_x_end - init_x_end);
 			y_range.start = init_y_start + t * (final_y_start - init_y_start);
 			y_range.end = init_y_end + t * (final_y_end - init_y_end);
+
 			if (current_step < steps) {
 				setTimeout(animateZoomOut, step_duration);
 			}
 		}
+
 		animateZoomOut();
 	}
 
 	// Gene Info Box
-	var geneInfoBox = document.getElementById("gene-info-box");
-	if (geneInfoBox) {
-		geneInfoBox.classList.remove("active");
+	if (gene_info_container) {
+		gene_info_container.classList.remove("active");
+
+		// Abort active fetch requests
+		if (active_fetch_controller) {
+			active_fetch_controller.abort();
+			active_fetch_controller = null;
+		}
+
+		gene_info_container.innerHTML = "";
 	}
 }
