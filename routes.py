@@ -1,5 +1,8 @@
 import numpy as np
 from flask import Blueprint, render_template
+
+from ai_interaction import callOpenAI, PROMPT_PUBMED
+from gene_requests import get_pubmed_references
 from volcano_plot import generate_volcano_plot
 
 from data_interaction import get_dataframe, get_donor_data
@@ -21,3 +24,10 @@ def index():
 	script, div = generate_volcano_plot(s4b_df)
 
 	return render_template('home.html', script=script, div=div)
+
+@main_bp.route('/gene/<gene_id>')
+def get_gene_info(gene_id):
+	gene_references = str(get_pubmed_references(gene_id))
+
+	# Call OpenAI API to request information
+	response = callOpenAI(dev_prompt=PROMPT_PUBMED, user_request=gene_references)
