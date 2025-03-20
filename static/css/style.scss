@@ -1,5 +1,8 @@
 @import 'fonts';
 @import 'colors';
+@import 'header';
+@import 'hero';
+@import 'plot_section';
 
 html, body {
     margin: 0;
@@ -9,139 +12,18 @@ html, body {
     background: white;
 }
 
-.site-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 1.5rem 2rem;
-  background: white;
-
-  .logo {
-    height: 40px;
-    width: auto;
-  }
-
-  .main-nav {
-    ul {
-      display: flex;
-      list-style: none;
-      gap: 10rem;
-      margin-right: 3rem;
-      padding: 0;
-
-      li a {
-        text-decoration: none;
-        font-family: "Iosevka Slab", serif;
-        font-size: 1.5rem;
-        color: black;
-        transition: color 0.2s ease-in-out;
-
-        &:hover {
-          color: $persian_blue;
-        }
-      }
-    }
-  }
+.fade-in {
+    opacity: 0;
+    animation: fadeIn 0.5s ease-in-out forwards;
 }
 
-.hero {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  margin: 15rem auto 4rem;
-  max-width: 800px;
-
-  //padding-left: 10rem;
-
-  transform: scale(1.2);
-
-  .hero-title {
-    display: flex;
-    align-items: center;
-    margin-bottom: 1rem;
-
-    font-family: Iosevka, monospace;
-    font-weight: bold;
-    font-size: 2.5rem;
-    text-align: center;
-    letter-spacing: -0.2rem;
-    color: $persian_blue;
-
-    .symbol {
-      margin-bottom: 4rem;
-      transform: scale(1.4);
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
     }
-
-    h1 {
-      margin: 0;
+    to {
+        opacity: 1;
+        transform: translateY(0);
     }
-  }
-
-  .hero-text-box {
-    display: flex;
-    align-items: flex-start;
-    margin-left: 2.7rem;
-
-    .hero-text {
-      font-family: "Apercu", serif;
-      font-size: 1.4rem;
-
-      max-width: 600px;
-      line-height: 1.5;
-      color: #191919;
-    }
-  }
-}
-
-.plot-section {
-  display: flex;
-  gap: 2rem;
-
-  position: relative;
-  z-index: 10;
-  background: white;
-  min-height: 200vh;
-  margin-top: -100px;
-  padding-top: 20rem;
-  transition: transform 1s ease, opacity 0.5s ease;
-  transform: translateY(10rem);
-  opacity: 0;
-
-  &.active {
-    transform: translateY(0);
-    opacity: 1;
-  }
-
-  .sentinel {
-    position: absolute;
-    top: 40%;
-    left: 0;
-    width: 100%;
-    height: 50px;
-  }
-
-  #volcano-plot {
-    flex: 2;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: transform 0.8s ease-in-out; // Smooth slide transition
-    transform: translateX(0) translateY(-40rem); // Initially centered
-
-    &.shift-left {
-        transform: translateX(-20%) translateY(-40rem); // Moves the plot to the left
-    }
-}
-
-  #lens-container {
-    flex: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    #lens-canvas {
-      border: 1px solid #ccc;
-    }
-  }
-
 }
