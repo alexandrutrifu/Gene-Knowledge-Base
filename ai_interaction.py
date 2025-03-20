@@ -1,6 +1,5 @@
 from openai import OpenAI
 from os import environ
-from gene_requests import get_pubmed_references
 
 PROMPT1 = """
         You are given different datasets including information about protein activity levels across different age groups.
@@ -40,15 +39,15 @@ USER_REQUEST_CONTENT = """
                 """
 
 def callOpenAI(dev_prompt, user_request):
-    """
+    """ Returns streaming generator for Open AI interrogation.
 
     :param dev_prompt: Prompt to instruct AI on the desired response format.
     :param user_request: Request to fetch data for.
-    :return: Open AI generated response
+    :return: Open AI streaming generator
     """
     client = OpenAI(api_key=environ['OPENAI_API_KEY'])
 
-    completion = client.chat.completions.create(
+    response = client.chat.completions.create(
         model="gpt-4o-mini",
         messages=[
             {
@@ -59,11 +58,10 @@ def callOpenAI(dev_prompt, user_request):
                 "role": "user",
                 "content": user_request
             }
-        ]
+        ],
+        stream=True
     )
 
-    response = completion.choices[0].message.content
-
-    print(response)
-
-    return response
+    for chunk in response:
+        if chunk.choices[0].delta.content:
+            yield chunk.choices[0].delta.content
