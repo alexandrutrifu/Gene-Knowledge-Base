@@ -1,18 +1,28 @@
+import numpy as np
 from bokeh.plotting import figure, output_file, show
 from bokeh.embed import components
 from bokeh.models import ColumnDataSource, HoverTool, TapTool, CustomJS, LogColorMapper, ColorBar
 from bokeh.palettes import Blues9, linear_palette
 
+from data_interaction import load_js_callback
 
-def generate_volcano_plot(df):
+
+def generate_volcano_plot(df_values, df_limma):
+	""" Renders a volcano plot for comparing protein activity levels.
+
+	:param df_values:
+	:param df_limma: Dataframe containing gene sample data.
+	:return:
+	"""
+
 	# Create density mapping for data concentration in the plot
-	density = get_density_map(df)
+	density = get_density_map(df_limma)
 
 	# Attach the density values to our dataframe
 	# The density is adjusted by 2 to make the plot more readable
-	df['density'] = density + 2
+	df_limma['density'] = density + 2
 
-	source = ColumnDataSource(df)
+	source = ColumnDataSource(df_limma)
 
 	# Create a 256-color blue gradient from light (low) to dark (high)
 	blue_palette = linear_palette(Blues9, 9)
@@ -20,8 +30,8 @@ def generate_volcano_plot(df):
 	# Create a color mapper from density values
 	color_mapper = LogColorMapper(
 		palette=blue_palette,
-		low=df["density"].min(),
-		high=df["density"].max()
+		low=df_limma["density"].min(),
+		high=df_limma["density"].max()
 	)
 
 	p = figure(title="Volcano plot", x_axis_label='log2 fold change', y_axis_label='-log10 p-value',
@@ -48,10 +58,19 @@ def generate_volcano_plot(df):
 
 	p.add_tools(TapTool())
 
+	# Convert Values Dataframe to a normal dictionary, passed over to JS code
+	df_values_dict = df_values.to_dict(orient="list")
+
 	# JavaScript callback to update DOM when a point is clicked
 	zoom_js_code = load_js_callback('static/js/marker_selection.js')
-	callback = CustomJS(args=dict(src=source, x_range=p.x_range, y_range=p.y_range),
-						code=zoom_js_code)
+	callback = CustomJS(
+		args=dict(
+			src=source,
+			x_range=p.x_range,
+			y_range=p.y_range,
+			df_values=df_values_dict
+		),
+		code=zoom_js_code)
 
 	# Link selection event to callback
 	source.selected.js_on_change("indices", callback)
