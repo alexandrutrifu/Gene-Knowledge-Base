@@ -70,6 +70,8 @@
       flex-direction: row;
       max-height: 6rem;
 
+      margin-top: 6rem;
+
       .dna-icon-div {
         display: flex;
         flex-direction: column;
@@ -95,6 +97,31 @@
       font-size: 1.3rem;
       color: #191919;
       padding-left: 2rem;
+    }
+
+    .scroll-down-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 5rem;
+
+      .scroll-down-hint-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        p {
+          font-family: "Iosevka Slab", serif;
+          font-size: 1.2rem;
+          color: $persian_blue;
+        }
+      }
+
+      .down-arrow-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
     }
   }
 }
