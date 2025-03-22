@@ -4,6 +4,7 @@ import numpy as np
 from flask import Blueprint, render_template, stream_with_context, Response
 
 from ai_interaction import callOpenAI, PROMPT_PUBMED, GENE_INFO_DESC_PROMPT
+from donor_plot import get_age_comparison_plot
 from gene_requests import get_pubmed_references
 from volcano_plot import generate_volcano_plot
 
@@ -76,3 +77,16 @@ def get_gene_info(gene_id):
 	)
 
 	return response
+
+@main_bp.route('/gene/<gene_id>/donors')
+def get_gene_donors(gene_id):
+	global df_values, df_limma
+
+	# Get components of the donor box plot
+	script, div = get_age_comparison_plot(df_values, gene_id)
+
+	# TODO: compute extra info about donors + normal distribution test
+
+	# TODO: summarize information through OpenAI call
+
+	return script, div
