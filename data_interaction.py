@@ -48,3 +48,33 @@ def get_donor_data(df, gene_id):
 		od_values.append(df[od_sample][row_index])
 
 	return yd_values, od_values
+
+def retrieve_dataframes():
+	# Get dataframes from gene database
+	df_values = get_dataframe("s4a_values")
+	df_limma = get_dataframe("s4b_limma")
+
+	# Adjust the p-value to be negative log10
+	df_limma['adj.P.Val'] = -1 * df_limma['adj.P.Val'].apply(np.log10)
+
+	# Rename problematic column name
+	df_limma.rename(columns={'adj.P.Val': 'adj_P_Val'}, inplace=True)
+
+	return df_values, df_limma
+
+def get_gene_parameters(gene_id):
+	global df_values, df_limma
+
+	# Get gene index in Values-Dataframe
+	gene_values_index = df_values.index[df_values["EntrezGeneID"] == gene_id][0]
+	gene_target = df_values["Target"][gene_values_index]
+	gene_limma_index = df_limma.index[df_limma["Target"] == gene_target][0]
+
+	# Put dataframe gene parameters into JSON object
+	gene_parameters = {
+		"name": df_limma["Target"][gene_limma_index],
+		"log_fold_change": df_limma["logFC"][gene_limma_index],
+		"adjusted_p_value": df_limma["adj_P_Val"][gene_limma_index]
+	}
+
+	return gene_parameters
