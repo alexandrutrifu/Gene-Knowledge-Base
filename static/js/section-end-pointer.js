@@ -1,15 +1,18 @@
-import { animateArrow} from "./arrow-bounce.js";
+import { animateArrow } from "./arrow-bounce.js";
 
 document.addEventListener("DOMContentLoaded", function () {
 	const plot_section = document.querySelector('.plot-section');
 	const gene_info_container = plot_section.querySelector('#gene-info-box');
+
+	// Keep track of arrow insertion
+	let arrowInserted = false;
 
 	const observer = new MutationObserver((mutations, observer) => {
 		for (const mutation of mutations) {
 			if (mutation.type === 'childList') {
 				const ending_div = gene_info_container.querySelector('.ending-div');
 
-				if (ending_div) {
+				if (ending_div && !arrowInserted) {
 					// Text generation has ended => insert the animated arrow
 					const scroll_down_container = document.createElement("div");
 
@@ -29,7 +32,8 @@ document.addEventListener("DOMContentLoaded", function () {
 						</div>
 					`;
 
-					observer.disconnect();
+					// observer.disconnect();
+					arrowInserted = true;
 
 					gene_info_container.appendChild(scroll_down_container);
 
@@ -37,6 +41,8 @@ document.addEventListener("DOMContentLoaded", function () {
 					const arrow = scroll_down_container.querySelector(".down-arrow-container");
 
 					animateArrow(arrow);
+				} else if (!ending_div && arrowInserted) {
+					arrowInserted = false;
 				}
 			}
 		}
