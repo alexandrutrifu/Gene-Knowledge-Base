@@ -6,7 +6,7 @@ from bokeh.models import ColumnDataSource, HoverTool
 from data_interaction import get_donor_data
 
 
-def get_age_comparison_plot(df, gene_name):
+def get_age_comparison_plot(df, gene_id):
 	""" Compares protein concentration values in different age groups through a box plot.
 
 	:param df: Dataframe to get donor samples from.
@@ -15,7 +15,7 @@ def get_age_comparison_plot(df, gene_name):
 	"""
 
 	# Get protein concentration values in young/old donor samples
-	yd_values, od_values = get_donor_data(df, gene_name)
+	yd_values, od_values = get_donor_data(df, gene_id)
 
 	# Age groups
 	categories = ['Young Donors', 'Elderly Donors']
@@ -29,7 +29,9 @@ def get_age_comparison_plot(df, gene_name):
 	create_box_plot(p, yd_values, categories[0], "#F7717D")
 	create_box_plot(p, od_values, categories[1], "#DE639A")
 
-	show(p)
+	script, div = components(p)
+
+	return script, div
 
 def create_box_plot(fig, sample_values, category, fill_color):
 	""" Renders the box plot corresponding to the provided donor sample.
@@ -40,7 +42,7 @@ def create_box_plot(fig, sample_values, category, fill_color):
 	:param fill_color: Fill color for the box plot.
 	:return:
 	"""
-	
+
 	# Get series from value lists
 	series = pd.to_numeric(pd.Series(sample_values))
 

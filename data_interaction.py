@@ -16,13 +16,14 @@ def get_dataframe(table_name):
 
 	return df
 
-def get_donor_data(df, gene_name):
+def get_donor_data(df, gene_id):
 	""" Returns protein concentration values across provided donor samples.
 
 	:param df: Dataframe to get donor samples from.
-	:param gene_name: Gene for which to inspect the samples.
+	:param gene_id: Gene for which to inspect the samples.
 	:return: Lists of concentration values for young/old donors.
 	"""
+
 	column_names = list(df)
 
 	# Regular expressions for young/old donor column names
@@ -36,7 +37,7 @@ def get_donor_data(df, gene_name):
 	yd_values = []
 	od_values = []
 
-	row_index = np.where(df["EntrezGeneSymbol"] == gene_name)[0][0]
+	row_index = np.where(df["EntrezGeneID"] == gene_id)[0][0]
 
 	# Get YD concentration values
 	for yd_sample in young_sample_keys:
