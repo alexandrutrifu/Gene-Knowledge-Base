@@ -1,12 +1,8 @@
-const indices = src.selected.indices;
-const plot_section = document.querySelector('.plot-section');
-
-// Monitor active fetch requests through global variable
-let active_fetch_controller = null
-
-// Gene Info Box element
-const gene_info_container = document.getElementById("gene-info-box");
-
+/** Fetches gene information based on OpenAI backend calls
+ *
+ * @param gene_id EntrezGeneID
+ * @param gene_info_text_box Container to insert the information into
+ */
 function fetchGeneInfo(gene_id, gene_info_text_box) {
 	// Abort previously active fetch requests
 	if (active_fetch_controller) {
@@ -70,6 +66,49 @@ function fetchGeneInfo(gene_id, gene_info_text_box) {
 		})
 		.catch(error => console.error("Error: ", error));
 }
+
+/** Inserts gene information stream inside the corresponding DOM container
+ *
+ * @param gene_info_container Container to localize inside the DOM
+ */
+function show_gene_info(gene_info_container) {
+	if (gene_info_container) {
+		// Opacity -> 1
+		gene_info_container.classList.add("active");
+
+		// Update content based on selected gene
+		gene_info_container.innerHTML = `
+			<div class="gene-header fade-in">
+				<div class="dna-icon-div">
+					<img src="/static/images/dna-icon-gene-box.svg"
+						alt="DNA SVG" class="dna-icon">
+				</div>
+				
+				<h2>Gene: ${df_limma['EntrezGeneSymbol'][index]}</h2>
+			</div>
+			
+			<div class="gene-info">
+				<!--- Placeholder for text spans which will fade in --->
+			</div>
+		`;
+
+		// Get gene information div element to append text in
+		let gene_info_text_box = gene_info_container.querySelector(".gene-info");
+
+		fetchGeneInfo(gene_id, gene_info_text_box);
+	}
+}
+
+// --- Main workflow starts from here ---
+
+const indices = src.selected.indices;
+const plot_section = document.querySelector('.plot-section');
+
+// Monitor active fetch requests through global variable
+let active_fetch_controller = null
+
+// Gene Info Box element
+const gene_info_container = document.getElementById("gene-info-box");
 
 // Save original axis ranges
 if (x_range.orig_start === undefined) {
@@ -138,31 +177,7 @@ if (indices.length > 0) {
 		plot_section.classList.add("shift-left");
 	}
 
-	if (gene_info_container) {
-		// Opacity -> 1
-		gene_info_container.classList.add("active");
-
-		// Update content based on selected gene
-		gene_info_container.innerHTML = `
-			<div class="gene-header fade-in">
-				<div class="dna-icon-div">
-					<img src="/static/images/dna-icon-gene-box.svg"
-						alt="DNA SVG" class="dna-icon">
-				</div>
-				
-				<h2>Gene: ${df_limma['EntrezGeneSymbol'][index]}</h2>
-			</div>
-			
-			<div class="gene-info">
-				<!--- Placeholder for text spans which will fade in --->
-			</div>
-		`;
-
-		// Get gene information div element to append text in
-		let gene_info_text_box = gene_info_container.querySelector(".gene-info");
-
-		fetchGeneInfo(gene_id, gene_info_text_box);
-	}
+	show_gene_info(gene_info_container);
 
 } else {
 	// No marker selected = Zoom out
