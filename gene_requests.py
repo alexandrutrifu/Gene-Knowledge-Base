@@ -4,7 +4,7 @@ import requests
 PUBMED_URL = "https://pubmed.ncbi.nlm.nih.gov/"
 MYGENE_URL = "https://mygene.info/v3/gene/"
 
-def get_pubmed_references(gene_id):
+def request_pubmed_references(gene_id):
 	# Request ONLY publication references
 	params = {
 		"fields": "generif"
