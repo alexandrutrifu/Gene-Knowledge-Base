@@ -22,10 +22,10 @@
   }
 
   .sentinel {
-    position: absolute;
-    top: 40%;
+    position: relative;
+    margin-top: 40rem;
     left: 0;
-    width: 100%;
+    width: 0;
     height: 50px;
   }
 
