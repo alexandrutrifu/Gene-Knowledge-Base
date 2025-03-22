@@ -3,10 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
     <!-- CSS StyleSheet -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
     <!-- JavaScript -->
-    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <script type=module src="{{ url_for('static', filename='js/arrow-animator.js') }}"></script>
+    <script type=module src="{{ url_for('static', filename='js/section-end-pointer.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/scrolldown.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/scrollup.js') }}"></script>
+
     <!-- Bokeh Resources -->
     <link rel="stylesheet" href="https://cdn.bokeh.org/bokeh/release/bokeh-3.6.3.min.css" type="text/css">
     <script type="text/javascript" src="https://cdn.bokeh.org/bokeh/release/bokeh-3.6.3.min.js"></script>
