@@ -24,16 +24,10 @@
         <span class="symbol">&gt;</span>
         <h1><strong>Gene knowledge at your fingertips.</strong></h1>
     </div>
-    <div class="hero-text-box">
-        <p class="hero-text">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua.
-        </p>
-    </div>
 </section>
 {% endblock %}
 
-{% block plots %}
+{% block gene-info %}
 <section class="plot-section">
     <div class="sentinel"></div>
 
@@ -43,15 +37,15 @@
         {{ script|safe }}
     </div>
 
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            console.log("DOM Loaded, waiting for Bokeh canvas...");
+    <div id="gene-info-box"></div>
+</section>
+{% endblock %}
 
-            const bokehPlot = document.querySelector("#volcano-plot");
-            if (!bokehPlot) {
-                console.error("Bokeh plot not found.");
-            }
-        });
-    </script>
+{% block donor-info %}
+<section class="donor-section">
+    <!-- Donor Plot -->
+    <div id="donor-plot"></div>
+
+    <div id="donor-info-box"></div>
 </section>
 {% endblock %}

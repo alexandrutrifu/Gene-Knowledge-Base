@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 
     <!-- JavaScript -->
-    <script type=module src="{{ url_for('static', filename='js/arrow-animator.js') }}"></script>
+    <script type=module src="{{ url_for('static', filename='js/arrow-bounce.js') }}"></script>
     <script type=module src="{{ url_for('static', filename='js/section-end-pointer.js') }}"></script>
     <script src="{{ url_for('static', filename='js/scrolldown.js') }}"></script>
     <script src="{{ url_for('static', filename='js/scrollup.js') }}"></script>
@@ -21,6 +21,7 @@
 <body>
     {% block header %}{% endblock %}
     {% block hero %}{% endblock %}
-    {% block plots %}{% endblock %}
+    {% block gene-info %}{% endblock %}
+    {% block donor-info %}{% endblock %}
 </body>
 </html>
