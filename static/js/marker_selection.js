@@ -4,67 +4,70 @@
  * @param gene_info_text_box Container to insert the information into
  */
 function fetchGeneInfo(gene_id, gene_info_text_box) {
-	// Abort previously active fetch requests
-	if (active_fetch_controller) {
-		active_fetch_controller.abort();
-	}
+	return new Promise((resolve, reject) => {
+		// Abort previously active fetch requests
+		if (active_fetch_controller) {
+			active_fetch_controller.abort();
+		}
 
-	active_fetch_controller = new AbortController();
-	const signal = active_fetch_controller.signal;
+		active_fetch_controller = new AbortController();
+		const signal = active_fetch_controller.signal;
 
-	// Fetch gene information from Flask backend
-	fetch('/gene/' + gene_id, {signal})
-		.then(response => {
-			const reader = response.body.getReader();
-			const decoder = new TextDecoder();
-			let generated_info = '';
+		// Fetch gene information from Flask backend
+		fetch('/gene/' + gene_id, {signal})
+			.then(response => {
+				const reader = response.body.getReader();
+				const decoder = new TextDecoder();
+				let generated_info = '';
 
-			// Keep track of bold enclosures
-			let openBold = false;
+				// Keep track of bold enclosures
+				let openBold = false;
 
-			function readStream() {
-				reader.read().then(({done, value}) => {
-					if (done) {
-						return;
-					}
+				function readStream() {
+					reader.read().then(({done, value}) => {
+						if (done) {
+							resolve();
+							return;
+						}
 
-					// Read the next streamed text chunk
-					let chunk = decoder.decode(value, {stream: true});
+						// Read the next streamed text chunk
+						let chunk = decoder.decode(value, {stream: true});
 
-					// Create a new span block to fade in the text
-					let span = document.createElement("span");
+						// Create a new span block to fade in the text
+						let span = document.createElement("span");
 
-					if (chunk.includes("**")) {
-						openBold = !openBold;
-						chunk = " ";
-					}
+						if (chunk.includes("**")) {
+							openBold = !openBold;
+							chunk = " ";
+						}
 
-					if (openBold) {
-						span.style.fontWeight = "bold";
-					}
+						if (openBold) {
+							span.style.fontWeight = "bold";
+						}
 
-					span.textContent = chunk;
-					span.classList.add("fade-in");
+						span.textContent = chunk;
+						span.classList.add("fade-in");
 
-					// Append new text span to textbox
-					gene_info_text_box.appendChild(span);
+						// Append new text span to textbox
+						gene_info_text_box.appendChild(span);
 
-					if (chunk.includes("\n")) {
-						let spacer = document.createElement("div");
+						if (chunk.includes("\n")) {
+							let spacer = document.createElement("div");
 
-						spacer.style.height = "1em";
+							spacer.style.height = "1em";
 
-						gene_info_text_box.appendChild(spacer);
-					}
+							gene_info_text_box.appendChild(spacer);
+						}
 
-					// Read next stream chunk
-					readStream();
-				})
-			}
+						// Read next stream chunk
+						readStream();
+					})
+				}
 
-			readStream();
-		})
-		.catch(error => console.error("Error: ", error));
+				readStream();
+			})
+			.catch(reject);
+	});
 }
 
 /** Inserts gene information stream inside the corresponding DOM container
@@ -95,11 +98,22 @@ function show_gene_info(gene_info_container) {
 		// Get gene information div element to append text in
 		let gene_info_text_box = gene_info_container.querySelector(".gene-info");
 
-		fetchGeneInfo(gene_id, gene_info_text_box);
+		fetchGeneInfo(gene_id, gene_info_text_box)
+			.then(() => {
+				// Insert empty div to signal the end of the stream (event trigger)
+				let endingDiv = document.createElement("div")
+
+				endingDiv.style.height = "0px";
+				endingDiv.className = "ending-div";
+
+				gene_info_text_box.appendChild(endingDiv);
+				console.log("finalized")
+		});
 	}
 }
 
 // --- Main workflow starts from here ---
+// TODO: refactor into methods
 
 const indices = src.selected.indices;
 const plot_section = document.querySelector('.plot-section');
