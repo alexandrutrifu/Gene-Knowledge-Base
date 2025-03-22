@@ -25,7 +25,7 @@ GENE_INFO_DESC_PROMPT = """
     You must create a description of the provided gene's behaviour given its parameter values.
     
     The values are extracted from a volcano plot illustrating the significance of the protein activity, 
-    in which the x-axis represents log2(fold_change), and the y-axis, -log10(p-value).
+    in which the x-axis represents log2(fold_change), and the y-axis, -log10(p-value). This means you need to compute the actual p-value yourself.
     
     The said description must be concise, accurate and tackle the meaning of each data sample. This includes the significance of the gene changes.
     Your tone should fit helpful environment (the content is addressed to a large audience) as it will be used in a web-service for observing gene activity.
