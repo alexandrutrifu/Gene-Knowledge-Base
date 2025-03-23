@@ -1,8 +1,10 @@
 @import 'fonts';
 @import 'colors';
+@import 'animations';
 @import 'header';
 @import 'hero';
 @import 'plot_section';
+@import 'donor_section';
 
 html, body {
     margin: 0;
@@ -10,48 +12,4 @@ html, body {
     font-family: "Apercu", sans-serif;
     font-size: 16px;
     background: white;
-}
-
-.fade-in {
-    opacity: 0;
-    animation: fadeIn 0.5s ease-in-out forwards;
-}
-
-.move-down {
-    animation: moveDown 0.2s ease-out forwards;
-}
-
-.move-up {
-    animation: moveUp 0.35s ease-in forwards;
-}
-
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(10px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-@keyframes moveDown {
-    from {
-        transform: translateY(0);
-    }
-
-    to {
-        transform: translateY(20px);
-    }
-}
-
-@keyframes moveUp {
-    from {
-        transform: translateY(20px);
-    }
-
-    to {
-        transform: translateY(0);
-    }
 }

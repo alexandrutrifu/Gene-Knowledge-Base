@@ -1,0 +1,53 @@
+.fade-in {
+    opacity: 0;
+    animation: fadeIn 0.5s ease-in-out forwards;
+}
+
+.fade-out {
+	opacity: 0;
+	transition: opacity 0.5s ease-out;
+}
+
+.smooth-section-collapse {
+	transition: height 1s ease, opacity 1s ease;
+	overflow: hidden;
+}
+
+.move-down {
+    animation: moveDown 0.2s ease-out forwards;
+}
+
+.move-up {
+    animation: moveUp 0.35s ease-in forwards;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes moveDown {
+    from {
+        transform: translateY(0);
+    }
+
+    to {
+        transform: translateY(20px);
+    }
+}
+
+@keyframes moveUp {
+    from {
+        transform: translateY(20px);
+    }
+
+    to {
+        transform: translateY(0);
+    }
+}
