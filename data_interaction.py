@@ -2,6 +2,7 @@ import sqlite3
 import pandas as pd
 import numpy as np
 import re
+import dataframes
 
 def load_js_callback(filename):
 	with open(filename, 'r') as file:
@@ -63,7 +64,8 @@ def retrieve_dataframes():
 	return df_values, df_limma
 
 def get_gene_parameters(gene_id):
-	global df_values, df_limma
+	df_values = dataframes.df_values
+	df_limma = dataframes.df_limma
 
 	# Get gene index in Values-Dataframe
 	gene_values_index = df_values.index[df_values["EntrezGeneID"] == gene_id][0]
