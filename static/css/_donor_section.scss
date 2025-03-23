@@ -1,0 +1,101 @@
+.donor-section {
+	display: flex;
+	flex-direction: column;
+
+	.donor-container {
+		position: relative;
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+		margin-top: 5rem;
+		margin-bottom: 5rem;
+
+		.donor-plot-container {
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			max-width: 60%;
+
+			transition: transform 0.8s ease-in-out;
+
+			// Add drop shadow
+			filter: drop-shadow(-20px 20px 8px rgba(0, 0, 0, 0.2));
+		}
+
+		.donor-info-container {
+			flex: 1;
+			display: flex;
+			flex-direction: column;
+			gap: 0.5rem;
+			max-width: 40%;
+
+			opacity: 0;
+			transition: opacity 0.5s ease;
+
+			&.active {
+			  transform: translateY(0);
+			  opacity: 1;
+			}
+
+			.donor-header {
+			  flex: 1;
+			  display: flex;
+			  flex-direction: row;
+			  max-height: 6rem;
+
+			  margin-top: 6rem;
+
+			  .donor-icon-div {
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+
+				.donor-icon {
+				  width: 4.3rem;
+				  height: 4.3rem;
+				  filter: invert(22%) sepia(89%) saturate(2270%) hue-rotate(306deg) brightness(89%) contrast(94%);
+				}
+			  }
+
+			  h2 {
+				font-family: "Iosevka Slab", serif;
+				font-size: 2.2rem;
+				vertical-align: center;
+				color: black;
+			  }
+			}
+
+			.donor-info {
+			  font-family: "Apercu", serif;
+			  font-size: 1.3rem;
+			  color: #191919;
+			  padding-left: 2rem;
+			}
+
+			.donor-scroll-down-container {
+			  display: flex;
+			  flex-direction: column;
+			  align-items: center;
+			  margin-top: 5rem;
+
+			  .donor-scroll-down-hint-container {
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+
+				p {
+				  font-family: "Iosevka Slab", serif;
+				  font-size: 1.2rem;
+				  color: $telemagenta;
+				}
+			  }
+
+			  .donor-down-arrow-container {
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+			  }
+			}
+		  }
+	}
+}
