@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
   const plotSection = document.querySelector('.plot-section');
-  const sentinel = document.querySelector('.plot-section .sentinel');
+  const plotSentinel = document.querySelector('.plot-section .sentinel');
 
   const observerOptions = {
     root: null,
@@ -17,7 +17,8 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }, observerOptions);
 
-  if (sentinel) {
-    observer.observe(sentinel);
+  if (plotSentinel) {
+    observer.observe(plotSentinel);
   }
 });
+

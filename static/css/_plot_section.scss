@@ -1,124 +1,130 @@
 .plot-section {
-  display: flex;
+	display: flex;
+	flex-direction: column;
+	position: relative;
+	z-index: 10;
+	background: white;
 
-  gap: 1rem;
-  position: relative;
-  z-index: 10;
-  background: white;
-  min-height: 80vh;
-  margin-top: 15rem;
-  transition: transform 1s ease, opacity 1s ease;
-  transform: translateX(0%) translateY(15%);
-  opacity: 0;
+	transition: transform 1s ease, opacity 1s ease;
+	transform: translateX(0%) translateY(15%);
+	opacity: 0;
 
-  &.active {
-    transform: translateX(0%) translateY(8%);
-    opacity: 1;
-  }
+	&.active {
+		transform: translateX(0%) translateY(0%);
+		opacity: 1;
+	}
 
-  &.shift-left {
-    transform: translateX(0%) translateY(5%);
-  }
+	&.shift-left {
+		transform: translateX(0%) translateY(5%);
+	}
 
-  .sentinel {
-    position: relative;
-    margin-top: 20rem;
-    left: 0;
-    width: 5px;
-    height: 40vh;
-  }
+	.sentinel {
+		display: block;
+		left: 0;
+		width: 100%;
+		height: 1px;
 
-  #volcano-plot {
-    flex: 2;
-    display: flex;
-    justify-content: center;
-    max-width: 60%;
+		margin-bottom: 10rem;
+	}
 
-    transition: transform 0.8s ease-in-out;
+	.section-container {
+		display: flex;
+		flex-direction: row;
 
-    // Add drop shadow
-    filter: drop-shadow(20px 20px 8px rgba(0, 0, 0, 0.2));
+		margin-top: 15rem;
 
-    &.shift-left {
-      transform: translateX(0%) translateY(-40rem);
-    }
-  }
+		#volcano-plot {
+			flex: 2;
+			display: flex;
+			justify-content: center;
+			max-width: 60%;
 
-  #gene-info-box {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    max-width: 38%;
+			transition: transform 0.8s ease-in-out;
 
-    margin-left: -3rem;
+			// Add drop shadow
+			filter: drop-shadow(20px 20px 8px rgba(0, 0, 0, 0.2));
 
-    opacity: 0;
-    transition: opacity 0.5s ease;
+			&.shift-left {
+				transform: translateX(0%) translateY(-40rem);
+			}
+		}
 
-    &.active {
-      transform: translateY(0);
-      opacity: 1;
-    }
+		#gene-info-box {
+			flex: 1;
+			display: flex;
+			flex-direction: column;
+			gap: 0.5rem;
+			max-width: 38%;
 
-    .gene-header {
-      flex: 1;
-      display: flex;
-      flex-direction: row;
-      max-height: 6rem;
+			margin-left: -3rem;
 
-      margin-top: 6rem;
+			opacity: 0;
+			transition: opacity 0.5s ease;
 
-      .dna-icon-div {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
+			&.active {
+				transform: translateY(0);
+				opacity: 1;
+			}
 
-        .dna-icon {
-          width: 4.3rem;
-          height: 4.3rem;
-          filter: invert(12%) sepia(100%) saturate(7422%) hue-rotate(223deg) brightness(95%) contrast(102%);
-        }
-      }
+			.gene-header {
+				flex: 1;
+				display: flex;
+				flex-direction: row;
+				max-height: 6rem;
 
-      h2 {
-        font-family: "Iosevka Slab", serif;
-        font-size: 2.2rem;
-        vertical-align: center;
-        color: black;
-      }
-    }
+				margin-top: 6rem;
 
-    .gene-info {
-      font-family: "Apercu", serif;
-      font-size: 1.3rem;
-      color: #191919;
-      padding-left: 2rem;
-    }
+				.dna-icon-div {
+					display: flex;
+					flex-direction: column;
+					justify-content: center;
 
-    .scroll-down-container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      margin-top: 5rem;
+					.dna-icon {
+						width: 4.3rem;
+						height: 4.3rem;
+						filter: invert(12%) sepia(100%) saturate(7422%) hue-rotate(223deg) brightness(95%) contrast(102%);
+					}
+				}
 
-      .scroll-down-hint-container {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
+				h2 {
+					font-family: "Iosevka Slab", serif;
+					font-size: 2.2rem;
+					vertical-align: center;
+					color: black;
+				}
+			}
 
-        p {
-          font-family: "Iosevka Slab", serif;
-          font-size: 1.2rem;
-          color: $persian_blue;
-        }
-      }
+			.gene-info {
+				font-family: "Apercu", serif;
+				font-size: 1.3rem;
+				color: #191919;
+				padding-left: 2rem;
+			}
 
-      .down-arrow-container {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-      }
-    }
-  }
+			.scroll-down-container {
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				margin-top: 5rem;
+
+				.scroll-down-hint-container {
+					display: flex;
+					flex-direction: column;
+					align-items: center;
+
+					p {
+						font-family: "Iosevka Slab", serif;
+						font-size: 1.2rem;
+						color: $persian_blue;
+					}
+				}
+
+				.down-arrow-container {
+					display: flex;
+					flex-direction: column;
+					align-items: center;
+				}
+			}
+		}
+	}
 }
