@@ -13,8 +13,11 @@ function fetchGeneInfo(gene_id, gene_info_text_box) {
 		active_fetch_controller = new AbortController();
 		const signal = active_fetch_controller.signal;
 
+		// Change URL
+		history.pushState({}, '', `/gene/${gene_id}`);
+
 		// Fetch gene information from Flask backend
-		fetch('/gene/' + gene_id, {signal})
+		fetch(`/gene/${gene_id}`, {signal})
 			.then(response => {
 				const reader = response.body.getReader();
 				const decoder = new TextDecoder();
