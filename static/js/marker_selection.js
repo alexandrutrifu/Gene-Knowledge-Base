@@ -77,7 +77,7 @@ function fetchGeneInfo(gene_id, gene_info_text_box) {
  *
  * @param gene_info_container Container to localize inside the DOM
  */
-function show_gene_info(gene_info_container) {
+function showGeneInfo(gene_info_container) {
 	if (gene_info_container) {
 		// Opacity -> 1
 		gene_info_container.classList.add("active");
@@ -194,7 +194,7 @@ if (indices.length > 0) {
 		plot_section.classList.add("shift-left");
 	}
 
-	show_gene_info(gene_info_container);
+	showGeneInfo(gene_info_container);
 
 } else {
 	// No marker selected = Zoom out
@@ -244,5 +244,30 @@ if (indices.length > 0) {
 		}
 
 		gene_info_container.innerHTML = "";
+
+		// Remove following sections, if existent
+		const donor_section = document.querySelector(".donor-section");
+
+		// Removal is done smoothly through collapse animation
+		donor_section.classList.add("smooth-section-collapse");
+		donor_section.style.height = donor_section.scrollHeight + "px";
+
+		donor_section.offsetHeight;
+
+		requestAnimationFrame(() => {
+			donor_section.style.height = "0px";
+			donor_section.style.opacity = "0";
+		})
+
+		setTimeout(() => {
+			donor_section.innerHTML = "";
+			donor_section.style.height = "";
+			donor_section.style.opacity = "";
+
+			donor_section.classList.remove("smooth-section-collapse");
+		}, 2000);
+
+		// Change URL
+		history.pushState({}, '', `/`);
 	}
 }
