@@ -1,18 +1,16 @@
 document.addEventListener('DOMContentLoaded', function () {
   const plotSection = document.querySelector('.plot-section');
-  const plotSentinel = document.querySelector('.plot-section .sentinel');
+  const plotSentinel = plotSection.querySelector('.plot-section .sentinel');
 
   const observerOptions = {
     root: null,
-    threshold: 0.5, // At least 50% of the sentinel must be visible
+    threshold: 0.5
   };
 
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
-      if (entry.intersectionRatio >= 0.5) {
-        plotSection.classList.add('active');
-      } else {
-        plotSection.classList.remove('active');
+      if (entry.target === plotSentinel) {
+        plotSection.classList.toggle('active', entry.isIntersecting);
       }
     });
   }, observerOptions);
@@ -21,4 +19,3 @@ document.addEventListener('DOMContentLoaded', function () {
     observer.observe(plotSentinel);
   }
 });
-
