@@ -3,6 +3,7 @@ import json
 import numpy as np
 from flask import Blueprint, render_template, stream_with_context, Response, jsonify
 
+import dataframes
 from ai_interaction import callOpenAI, PROMPT_PUBMED, GENE_INFO_DESC_PROMPT
 from donor_plot import get_age_comparison_plot
 from gene_requests import request_pubmed_references
@@ -45,7 +46,9 @@ def get_gene_donors(gene_id):
 
 	return jsonify({
 		"script": script,
-		"div": div
+		"div": div,
+		"gene-name": get_gene_name_from_id(gene_id),
+		"gene-symbol": get_gene_symbol_from_id(gene_id)
 	})
 
 @main_bp.route('/gene/<gene_id>/ref')
@@ -56,3 +59,9 @@ def get_gene_references(gene_id):
 	#TODO: select most relevant articles to display
 
 	#TODO: add option for viewing the full reference list
+
+@main_bp.route('/gene/<gene_id>/all')
+def get_complete_info(gene_id):
+	gene_info = (dataframes.df_values[dataframes.df_values["EntrezGeneID"] == gene_id])
+
+	return jsonify(gene_info.to_dict(orient="records")[0])
