@@ -14,6 +14,7 @@ app.register_blueprint(main_bp)
 
 # Load dataframes
 dataframes.df_values, dataframes.df_limma = retrieve_dataframes()
+dataframes.original_df_limma = dataframes.df_limma.copy()
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=50000, debug=True)

@@ -19,8 +19,15 @@ def index():
 	if request.method == 'POST':
 		# POST method behaviour (file submission)
 		file = request.files['file']
-		print(file.filename)
+
+		# Switch current dataframe with new imported one
 		file.save(file.filename)
+
+		dataframes.df_limma = pd.read_csv(file.filename)
+
+		clean_dataframe(dataframes.df_limma)
+	else:
+		dataframes.df_limma = dataframes.original_df_limma.copy()
 
 	script, div = generate_volcano_plot(dataframes.df_values, dataframes.df_limma)
 
