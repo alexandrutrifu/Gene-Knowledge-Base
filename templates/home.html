@@ -57,10 +57,16 @@
         <div class="form-container">
             <form enctype="multipart/form-data" action="/" method="post">
                 <label>
-                    <input type="file"/>
+                    <input type="file" name="file" accept=".csv"/>
                     <img src="/static/images/submit-csv-button.svg"
                         alt="Submit Button SVG" class="submit-csv-button">
                 </label>
+
+                <script>
+                    document.querySelector('input[type="file"]').addEventListener('change', function () {
+                        this.form.submit();
+                    });
+                </script>
             </form>
         </div>
     </div>

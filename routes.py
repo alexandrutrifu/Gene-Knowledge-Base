@@ -1,7 +1,7 @@
 import json
 
 import numpy as np
-from flask import Blueprint, render_template, stream_with_context, Response, jsonify
+from flask import Blueprint, render_template, stream_with_context, Response, jsonify, request
 
 import dataframes
 from ai_interaction import callOpenAI, PROMPT_PUBMED, GENE_INFO_DESC_PROMPT, DONOR_ANALYSIS_PROMPT
@@ -14,8 +14,14 @@ from data_interaction import *
 # Main Flask blueprint
 main_bp = Blueprint('main', __name__)
 
-@main_bp.route('/')
+@main_bp.route('/', methods = ['GET', 'POST'])
 def index():
+	if request.method == 'POST':
+		# POST method behaviour (file submission)
+		file = request.files['file']
+		print(file.filename)
+		file.save(file.filename)
+
 	script, div = generate_volcano_plot(dataframes.df_values, dataframes.df_limma)
 
 	return render_template('home.html', script=script, div=div)
@@ -39,10 +45,6 @@ def get_gene_info(gene_id):
 def get_donor_plot(gene_id):
 	# Get components of the donor box plot
 	script, div = get_age_comparison_plot(dataframes.df_values, gene_id)
-
-	# TODO: compute extra info about donors + normal distribution test
-
-	# TODO: summarize information through OpenAI call
 
 	return jsonify({
 		"script": script,
