@@ -53,6 +53,16 @@
 <section class="file-import-section">
     <div class="import-container">
         <h1>> Want a different data sample? Import <span style="color: #27A127">your own</span>!</h1>
+
+        <div class="form-container">
+            <form enctype="multipart/form-data" action="/" method="post">
+                <label>
+                    <input type="file"/>
+                    <img src="/static/images/submit-csv-button.svg"
+                        alt="Submit Button SVG" class="submit-csv-button">
+                </label>
+            </form>
+        </div>
     </div>
 </section>
 {% endblock %}

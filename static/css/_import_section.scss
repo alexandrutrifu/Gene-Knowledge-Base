@@ -15,5 +15,20 @@
 			color: #191919;
 			margin: 0;
 		}
+
+		input[type="file"] {
+			display: none;
+		}
+
+		.form-container {
+			.submit-csv-button {
+				cursor: pointer;
+				transition: transform 0.2s ease;
+			}
+
+			.submit-csv-button:hover {
+				transform: scale(1.05);
+			}
+		}
 	}
 }
