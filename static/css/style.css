@@ -10,63 +10,352 @@
   font-weight: normal;
   font-style: normal;
 }
-body {
-  background-color: white;
+@font-face {
+  font-family: "Iosevka Slab";
+  src: url("../fonts/IosevkaSlab-Regular.ttc") format("truetype-collection");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Iosevka Regular";
+  src: url("../fonts/Iosevka-Bold.ttc") format("truetype-collection");
+  font-weight: bold;
+  font-style: normal;
+}
+.fade-in {
+  opacity: 0;
+  animation: fadeIn 0.5s ease-in-out forwards;
 }
 
-/* Header */
-header {
+.fade-out {
+  opacity: 0;
+  transition: opacity 0.5s ease-out;
+}
+
+.smooth-section-collapse {
+  transition: height 2.5s ease, opacity 1s ease;
+  overflow: hidden;
+}
+
+.move-down {
+  animation: moveDown 0.2s ease-out forwards;
+}
+
+.move-up {
+  animation: moveUp 0.35s ease-in forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes moveDown {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(20px);
+  }
+}
+@keyframes moveUp {
+  from {
+    transform: translateY(20px);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+.site-header {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  padding: 20px;
+  justify-content: space-between;
+  padding: 1.5rem 2rem;
+  background: white;
 }
-
-/* Logo */
-.logo {
-  width: 20px !important; /* Adjust size */
-  height: auto !important;
-  display: block;
+.site-header .logo {
+  height: 40px;
+  width: auto;
+  filter: invert(12%) sepia(100%) saturate(7422%) hue-rotate(223deg) brightness(95%) contrast(102%);
 }
-
-/* Navigation */
-nav ul {
+.site-header .main-nav ul {
   display: flex;
   list-style: none;
+  gap: 10rem;
+  margin-right: 3rem;
+  padding: 0;
 }
-
-nav ul li {
-  margin-left: 20px;
-}
-
-nav ul li a {
+.site-header .main-nav ul li a {
   text-decoration: none;
+  font-family: "Iosevka Slab", serif;
+  font-size: 1.5rem;
   color: black;
-  font-size: 18px;
+  transition: color 0.2s ease-in-out;
+}
+.site-header .main-nav ul li a:hover {
+  color: #0B31D2;
 }
 
-/* Hero Section */
 .hero {
-  margin-top: 50px;
-  text-align: left;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin: 15rem auto 4rem;
+  max-width: 800px;
+  transform: scale(1.2);
+  overflow: visible;
+}
+.hero .hero-title {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+  font-family: Iosevka, monospace;
+  font-weight: bold;
+  font-size: 2.5rem;
+  text-align: center;
+  letter-spacing: -0.2rem;
+  color: #0B31D2;
+  opacity: 0;
+  transition: opacity 1s ease;
+}
+.hero .hero-title .symbol {
+  margin-bottom: 4rem;
+  transform: scale(1.4);
+  opacity: inherit;
+}
+.hero .hero-title h1 {
+  margin: 0;
+}
+.hero .hero-title.active {
+  transform: translateY(0);
+  opacity: 1;
+}
+.hero .arrow {
+  z-index: 20;
+  cursor: pointer;
+  position: absolute;
+  top: -80%;
+  margin-left: 1rem;
+  transform: scale(0.15);
+}
+.hero .hero-text-box {
+  display: flex;
+  align-items: flex-start;
+  margin-left: 2.7rem;
+}
+.hero .hero-text-box .hero-text {
   font-family: "Apercu", serif;
-}
-
-.symbol {
-  color: #0B31D2;
-  font-size: 30px;
-  font-weight: bold;
-}
-
-h1 {
-  color: #0B31D2;
-  font-size: 36px;
-  font-weight: bold;
-}
-
-p {
-  color: #0B31D2;
-  font-size: 18px;
-  font-weight: normal;
+  font-size: 1.4rem;
   max-width: 600px;
+  line-height: 1.5;
+  color: #191919;
+}
+
+.plot-section {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  z-index: 10;
+  background: white;
+  transition: transform 2s ease, opacity 1.5s ease;
+  transform: translateX(0%) translateY(15%);
+  opacity: 0;
+}
+.plot-section.active {
+  transform: translateX(0%) translateY(0%);
+  opacity: 1;
+}
+.plot-section .sentinel {
+  display: block;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  margin-bottom: 5rem;
+}
+.plot-section .section-container {
+  display: flex;
+  flex-direction: row;
+  margin-top: 15rem;
+}
+.plot-section .section-container #volcano-plot {
+  flex: 2;
+  display: flex;
+  justify-content: center;
+  max-width: 60%;
+  transition: transform 0.8s ease-in-out;
+  filter: drop-shadow(20px 20px 8px rgba(0, 0, 0, 0.2));
+}
+.plot-section .section-container #volcano-plot.shift-left {
+  transform: translateX(0%) translateY(-40rem);
+}
+.plot-section .section-container #gene-info-box {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  max-width: 38%;
+  margin-left: -3rem;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+.plot-section .section-container #gene-info-box.active {
+  transform: translateY(0);
+  opacity: 1;
+}
+.plot-section .section-container #gene-info-box .gene-header {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  max-height: 6rem;
+  margin-top: 6rem;
+}
+.plot-section .section-container #gene-info-box .gene-header .dna-icon-div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.plot-section .section-container #gene-info-box .gene-header .dna-icon-div .dna-icon {
+  width: 4.3rem;
+  height: 4.3rem;
+  filter: invert(12%) sepia(100%) saturate(7422%) hue-rotate(223deg) brightness(95%) contrast(102%);
+}
+.plot-section .section-container #gene-info-box .gene-header h2 {
+  font-family: "Iosevka Slab", serif;
+  font-size: 2.2rem;
+  vertical-align: center;
+  color: black;
+}
+.plot-section .section-container #gene-info-box .gene-info {
+  font-family: "Apercu", serif;
+  font-size: 1.3rem;
+  color: #191919;
+  padding-left: 2rem;
+}
+.plot-section .section-container #gene-info-box .scroll-down-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 5rem;
+}
+.plot-section .section-container #gene-info-box .scroll-down-container .scroll-down-hint-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.plot-section .section-container #gene-info-box .scroll-down-container .scroll-down-hint-container p {
+  font-family: "Iosevka Slab", serif;
+  font-size: 1.2rem;
+  color: #0B31D2;
+}
+.plot-section .section-container #gene-info-box .scroll-down-container .down-arrow-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.donor-section {
+  display: flex;
+  flex-direction: column;
+  opacity: 0;
+  transition: height 2s ease, opacity 1s ease;
+}
+.donor-section.active {
+  opacity: 1;
+}
+.donor-section .sentinel {
+  display: block;
+  width: 100%;
+  height: 1px;
+  margin-bottom: 10rem;
+}
+.donor-section .donor-container {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin-top: 5rem;
+  gap: 6rem;
+}
+.donor-section .donor-container .donor-plot-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  max-width: 60%;
+  transition: transform 0.8s ease-in-out;
+  filter: drop-shadow(-20px 20px 8px rgba(0, 0, 0, 0.2));
+}
+.donor-section .donor-container .donor-info-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  max-width: 40%;
+}
+.donor-section .donor-container .donor-info-container.active {
+  transform: translateY(0);
+  opacity: 1;
+}
+.donor-section .donor-container .donor-info-container .donor-header {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  max-height: 6rem;
+  margin-top: 6rem;
+}
+.donor-section .donor-container .donor-info-container .donor-header .donor-icon-div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.donor-section .donor-container .donor-info-container .donor-header .donor-icon-div .donor-icon {
+  width: 4.3rem;
+  height: 4.3rem;
+  filter: invert(22%) sepia(89%) saturate(2270%) hue-rotate(306deg) brightness(89%) contrast(94%);
+}
+.donor-section .donor-container .donor-info-container .donor-header h2 {
+  font-family: "Iosevka Slab", serif;
+  font-size: 2.2rem;
+  vertical-align: center;
+  color: black;
+}
+.donor-section .donor-container .donor-info-container .donor-info {
+  font-family: "Apercu", serif;
+  font-size: 1.3rem;
+  color: #191919;
+  padding-left: 2rem;
+}
+.donor-section .donor-container .donor-info-container .donor-scroll-down-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 5rem;
+}
+.donor-section .donor-container .donor-info-container .donor-scroll-down-container .donor-scroll-down-hint-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.donor-section .donor-container .donor-info-container .donor-scroll-down-container .donor-scroll-down-hint-container p {
+  font-family: "Iosevka Slab", serif;
+  font-size: 1.2rem;
+  color: #C93175;
+}
+.donor-section .donor-container .donor-info-container .donor-scroll-down-container .donor-down-arrow-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: "Apercu", sans-serif;
+  font-size: 16px;
+  background: white;
 }

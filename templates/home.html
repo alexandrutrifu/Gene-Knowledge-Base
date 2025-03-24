@@ -29,23 +29,22 @@
 
 {% block gene_info %}
 <section class="plot-section">
-    <div class="sentinel"></div>
+    <div class="section-container">
+        <!-- Main Volcano Plot -->
+        <div id="volcano-plot">
+            {{ div|safe }}
+            {{ script|safe }}
+        </div>
 
-    <!-- Main Volcano Plot -->
-    <div id="volcano-plot">
-        {{ div|safe }}
-        {{ script|safe }}
+        <div id="gene-info-box"></div>
     </div>
 
-    <div id="gene-info-box"></div>
+    <div class="sentinel"></div>
 </section>
 {% endblock %}
 
 {% block donor_info %}
 <section class="donor-section">
     <!-- Donor Plot -->
-    <div id="donor-plot"></div>
-
-    <div id="donor-info-box"></div>
 </section>
 {% endblock %}

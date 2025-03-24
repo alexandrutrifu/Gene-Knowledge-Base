@@ -1,4 +1,5 @@
-import { animateArrow } from "./arrow-bounce.js";
+import { animateArrow } from "./arrow_bounce.js";
+import { createDonorSection } from "./donor_section.js"
 
 function insertScrollDownContainer(gene_info_container) {
 	const scroll_down_container = document.createElement("div");
@@ -29,7 +30,8 @@ function insertScrollDownContainer(gene_info_container) {
 
 document.addEventListener("DOMContentLoaded", function () {
 	const plot_section = document.querySelector('.plot-section');
-	const gene_info_container = plot_section.querySelector('#gene-info-box');
+	const section_container = plot_section.querySelector('.section-container');
+	const gene_info_container = section_container.querySelector('#gene-info-box');
 
 	// Keep track of arrow insertion
 	let arrowInserted = false;

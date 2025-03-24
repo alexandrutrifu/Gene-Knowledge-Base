@@ -4,7 +4,7 @@ import numpy as np
 from flask import Blueprint, render_template, stream_with_context, Response, jsonify
 
 import dataframes
-from ai_interaction import callOpenAI, PROMPT_PUBMED, GENE_INFO_DESC_PROMPT
+from ai_interaction import callOpenAI, PROMPT_PUBMED, GENE_INFO_DESC_PROMPT, DONOR_ANALYSIS_PROMPT
 from donor_plot import get_age_comparison_plot
 from gene_requests import request_pubmed_references
 from volcano_plot import generate_volcano_plot
@@ -35,8 +35,8 @@ def get_gene_info(gene_id):
 
 	return response
 
-@main_bp.route('/gene/<gene_id>/donors')
-def get_gene_donors(gene_id):
+@main_bp.route('/gene/<gene_id>/donors/plot')
+def get_donor_plot(gene_id):
 	# Get components of the donor box plot
 	script, div = get_age_comparison_plot(dataframes.df_values, gene_id)
 
@@ -46,10 +46,36 @@ def get_gene_donors(gene_id):
 
 	return jsonify({
 		"script": script,
-		"div": div,
-		"gene-name": get_gene_name_from_id(gene_id),
-		"gene-symbol": get_gene_symbol_from_id(gene_id)
+		"div": div
 	})
+
+@main_bp.route('/gene/<gene_id>/donors/stats')
+def get_donor_stats(gene_id):
+	# Get significance level from dataframe
+	gene_name = get_complete_info(gene_id).get_json()["Target"]
+	adjusted_p_value = dataframes.df_limma["adj_P_Val"][dataframes.df_limma["Target"] == gene_name].iloc[0]
+
+	# Get donor samples
+	yd_values, od_values = get_donor_data(dataframes.df_values, gene_id)
+
+	donor_json = json.dumps({
+		"gene_name": gene_name,
+		"significance": adjusted_p_value,
+		"donor_groups": {
+			"young": yd_values,
+			"old": od_values
+		}
+	})
+
+	# Call OpenAI API to request information
+	response = Response(
+		stream_with_context(
+			callOpenAI(dev_prompt=DONOR_ANALYSIS_PROMPT, user_request=donor_json)
+		),
+		content_type="text/plain"
+	)
+
+	return response
 
 @main_bp.route('/gene/<gene_id>/ref')
 def get_gene_references(gene_id):
