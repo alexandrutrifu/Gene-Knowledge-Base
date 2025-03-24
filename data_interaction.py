@@ -50,16 +50,19 @@ def get_donor_data(df, gene_id):
 
 	return yd_values, od_values
 
+def clean_dataframe(df):
+	# Adjust the p-value to be negative log10
+	df['adj.P.Val'] = -1 * df['adj.P.Val'].apply(np.log10)
+
+	# Rename problematic column name
+	df.rename(columns={'adj.P.Val': 'adj_P_Val'}, inplace=True)
+
 def retrieve_dataframes():
 	# Get dataframes from gene database
 	df_values = get_dataframe("s4a_values")
 	df_limma = get_dataframe("s4b_limma")
 
-	# Adjust the p-value to be negative log10
-	df_limma['adj.P.Val'] = -1 * df_limma['adj.P.Val'].apply(np.log10)
-
-	# Rename problematic column name
-	df_limma.rename(columns={'adj.P.Val': 'adj_P_Val'}, inplace=True)
+	clean_dataframe(df_limma)
 
 	return df_values, df_limma
 
