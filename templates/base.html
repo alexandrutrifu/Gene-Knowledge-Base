@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- CSS StyleSheet -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <!-- JavaScript -->
+    <script type=module src="{{ url_for('static', filename='js/observe_donor_section.js') }}"></script>
+    <script type=module src="{{ url_for('static', filename='js/page_navigation.js') }}"></script>
+    <script type=module src="{{ url_for('static', filename='js/donor_section.js') }}"></script>
+    <script type=module src="{{ url_for('static', filename='js/arrow_bounce.js') }}"></script>
+    <script type=module src="{{ url_for('static', filename='js/section_end_pointer.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/observe_gene_info.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/scrollup.js') }}"></script>
+
+    <!-- Bokeh Resources -->
+    <link rel="stylesheet" href="https://cdn.bokeh.org/bokeh/release/bokeh-3.6.3.min.css" type="text/css">
+    <script type="text/javascript" src="https://cdn.bokeh.org/bokeh/release/bokeh-3.6.3.min.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    {% block header %}{% endblock %}
+    {% block hero %}{% endblock %}
+    {% block gene_info %}{% endblock %}
+    {% block donor_info %}{% endblock %}
+</body>
+</html>

@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<header class="site-header">
+    <img
+        src="{{ url_for('static', filename='images/dna-icon.svg') }}"
+        alt="Gene Knowledge Logo"
+        class="logo"
+    />
+
+    <nav class="main-nav">
+        <ul>
+            <li><a href="#">Database</a></li>
+            <li><a href="#">Information</a></li>
+            <li><a href="#">About</a></li>
+        </ul>
+    </nav>
+</header>
+{% endblock %}
+
+{% block hero %}
+<section class="hero">
+    <div class="hero-title">
+        <span class="symbol">&gt;</span>
+        <h1><strong>Gene knowledge at your fingertips.</strong></h1>
+    </div>
+</section>
+{% endblock %}
+
+{% block gene_info %}
+<section class="plot-section">
+    <div class="section-container">
+        <!-- Main Volcano Plot -->
+        <div id="volcano-plot">
+            {{ div|safe }}
+            {{ script|safe }}
+        </div>
+
+        <div id="gene-info-box"></div>
+    </div>
+
+    <div class="sentinel"></div>
+</section>
+{% endblock %}
+
+{% block donor_info %}
+<section class="donor-section">
+    <!-- Donor Plot -->
+</section>
+{% endblock %}

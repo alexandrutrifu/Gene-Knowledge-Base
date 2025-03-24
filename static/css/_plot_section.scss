@@ -1,0 +1,126 @@
+.plot-section {
+	display: flex;
+	flex-direction: column;
+	position: relative;
+	z-index: 10;
+	background: white;
+
+	transition: transform 2s ease, opacity 1.5s ease;
+	transform: translateX(0%) translateY(15%);
+	opacity: 0;
+
+	&.active {
+		transform: translateX(0%) translateY(0%);
+		opacity: 1;
+	}
+
+	.sentinel {
+		display: block;
+		left: 0;
+		width: 100%;
+		height: 1px;
+
+		margin-bottom: 5rem;
+	}
+
+	.section-container {
+		display: flex;
+		flex-direction: row;
+
+		margin-top: 15rem;
+
+		#volcano-plot {
+			flex: 2;
+			display: flex;
+			justify-content: center;
+			max-width: 60%;
+
+			transition: transform 0.8s ease-in-out;
+
+			// Add drop shadow
+			filter: drop-shadow(20px 20px 8px rgba(0, 0, 0, 0.2));
+
+			&.shift-left {
+				transform: translateX(0%) translateY(-40rem);
+			}
+		}
+
+		#gene-info-box {
+			flex: 1;
+			display: flex;
+			flex-direction: column;
+			gap: 0.5rem;
+			max-width: 38%;
+
+			margin-left: -3rem;
+
+			opacity: 0;
+			transition: opacity 0.5s ease;
+
+			&.active {
+				transform: translateY(0);
+				opacity: 1;
+			}
+
+			.gene-header {
+				flex: 1;
+				display: flex;
+				flex-direction: row;
+				max-height: 6rem;
+
+				margin-top: 6rem;
+
+				.dna-icon-div {
+					display: flex;
+					flex-direction: column;
+					justify-content: center;
+
+					.dna-icon {
+						width: 4.3rem;
+						height: 4.3rem;
+						filter: invert(12%) sepia(100%) saturate(7422%) hue-rotate(223deg) brightness(95%) contrast(102%);
+					}
+				}
+
+				h2 {
+					font-family: "Iosevka Slab", serif;
+					font-size: 2.2rem;
+					vertical-align: center;
+					color: black;
+				}
+			}
+
+			.gene-info {
+				font-family: "Apercu", serif;
+				font-size: 1.3rem;
+				color: #191919;
+				padding-left: 2rem;
+			}
+
+			.scroll-down-container {
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				margin-top: 5rem;
+
+				.scroll-down-hint-container {
+					display: flex;
+					flex-direction: column;
+					align-items: center;
+
+					p {
+						font-family: "Iosevka Slab", serif;
+						font-size: 1.2rem;
+						color: $persian_blue;
+					}
+				}
+
+				.down-arrow-container {
+					display: flex;
+					flex-direction: column;
+					align-items: center;
+				}
+			}
+		}
+	}
+}
