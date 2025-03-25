@@ -1,13 +1,13 @@
 import json
 import sqlite3
+import os
 import pandas as pd
 import numpy as np
 import re
-import dataframes
-from flask import jsonify
 
-from ai_interaction import callOpenAI, RELEVANT_REF_PROMPT
-from gene_requests import request_pubmed_references
+from . import dataframes
+from .ai_interaction import callOpenAI, RELEVANT_REF_PROMPT
+from .gene_requests import request_pubmed_references
 
 
 def load_js_callback(filename):
@@ -15,7 +15,9 @@ def load_js_callback(filename):
 		return file.read()
 
 def get_dataframe(table_name):
-	con = sqlite3.connect('database/gene-knowledge-db')
+	base_dir = os.path.dirname(os.path.abspath(__file__))
+	db_path = os.path.join(base_dir, '../database/gene-knowledge-db')
+	con = sqlite3.connect(db_path)
 
 	# Read the original database
 	cursor = con.cursor()

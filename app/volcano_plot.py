@@ -1,10 +1,12 @@
 import numpy as np
+import os
+
 from bokeh.plotting import figure, output_file, show
 from bokeh.embed import components
 from bokeh.models import ColumnDataSource, HoverTool, TapTool, CustomJS, LogColorMapper, ColorBar
 from bokeh.palettes import Blues9, linear_palette
 
-from data_interaction import load_js_callback
+from .data_interaction import load_js_callback
 
 
 def generate_volcano_plot(df_values, df_limma):
@@ -62,7 +64,9 @@ def generate_volcano_plot(df_values, df_limma):
 	df_values_dict = df_values.to_dict(orient="list")
 
 	# JavaScript callback to update DOM when a point is clicked
-	zoom_js_code = load_js_callback('static/js/marker_selection.js')
+	js_path = os.path.join(os.path.dirname(__file__), '../static/js/marker_selection.js')
+	zoom_js_code = load_js_callback(js_path)
+
 	callback = CustomJS(
 		args=dict(
 			src=source,

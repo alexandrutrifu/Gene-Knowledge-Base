@@ -1,6 +1,7 @@
 .donor-section {
 	display: flex;
 	flex-direction: column;
+	height: 0;
 
 	opacity: 0;
 	transition: height 2s ease, opacity 1s ease;
@@ -10,7 +11,7 @@
 	}
 
 	.sentinel {
-		display: block;
+		display: none;
 		width: 100%;
 		height: 1px;
 		margin-bottom: 10rem;

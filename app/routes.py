@@ -1,16 +1,11 @@
-import json
-from math import trunc
 from threading import Thread
 
-import numpy as np
-from flask import Blueprint, render_template, stream_with_context, Response, jsonify, request
+from flask import Blueprint, render_template, stream_with_context, Response, request, jsonify
 
-import dataframes
-from ai_interaction import callOpenAIStream, GENE_INFO_DESC_PROMPT, DONOR_ANALYSIS_PROMPT, callOpenAI
-from donor_plot import get_age_comparison_plot
-from volcano_plot import generate_volcano_plot
-
-from data_interaction import *
+from .ai_interaction import callOpenAIStream, GENE_INFO_DESC_PROMPT, DONOR_ANALYSIS_PROMPT
+from .donor_plot import get_age_comparison_plot
+from .volcano_plot import generate_volcano_plot
+from .data_interaction import *
 
 # Main Flask blueprint
 main_bp = Blueprint('main', __name__)
