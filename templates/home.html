@@ -45,6 +45,22 @@
 
 {% block donor_info %}
 <section class="donor-section">
+    <div class="donor-container">
+        <div class="donor-info-container">
+            <div class="donor-header">
+				<div class="donor-icon-div">
+					<img src="/static/images/donor-icon.svg"
+						alt="Donor SVG" class="donor-icon">
+				</div>
+			</div>
+
+            <div class="donor-info"></div>
+        </div>
+
+        <div class="donor-plot-container"></div>
+    </div>
+
+    <div class="sentinel"></div>
     <!-- Donor Plot -->
 </section>
 {% endblock %}
@@ -54,8 +70,13 @@
     <!-- Gene references go here -->
     <div class="reference-container">
         <div class="title-card-container">
-            <div class="ref-logo-container"></div>
-            <div class="ref-title-container"></div>
+            <div class="ref-logo-container">
+                <img src="/static/images/ref-logo.svg"
+			        alt="Reference SVG" class="ref-logo">
+            </div>
+            <div class="ref-title-container">
+                <h2>See References</h2>
+            </div>
         </div>
 
         <div class="first-ref-row-container">
