@@ -83,30 +83,31 @@
 			  padding-left: 2rem;
 			}
 
-			.donor-scroll-down-container {
+			.scroll-down-container {
 			  display: flex;
 			  flex-direction: column;
 			  align-items: center;
 			  margin-top: 5rem;
 
-			  .donor-scroll-down-hint-container {
-				display: flex;
-				flex-direction: column;
-				align-items: center;
+				.scroll-down-hint-container {
+					display: flex;
+					flex-direction: column;
+					align-items: center;
 
-				p {
-				  font-family: "Iosevka Slab", serif;
-				  font-size: 1.2rem;
-				  color: $telemagenta;
+					p {
+					  font-family: "Iosevka Slab", serif;
+					  font-size: 1.2rem;
+					  color: $telemagenta;
+					}
 				}
-			  }
 
-			  .donor-down-arrow-container {
-				display: flex;
-				flex-direction: column;
-				align-items: center;
-			  }
+				.down-arrow-container {
+					.down-arrow-icon {
+						filter: invert(22%) sepia(89%) saturate(2270%) hue-rotate(306deg) brightness(89%) contrast(94%);
+					}
+				}
 			}
+
 		  }
 	}
 }

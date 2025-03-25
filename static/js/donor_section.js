@@ -1,4 +1,5 @@
 import { observeDonorSentinel } from "./observe_donor_section.js"
+import {insertScrollDownContainer} from "./scroll_down_containers.js";
 
 
 // Monitor active fetch requests through global variable
@@ -30,8 +31,6 @@ function fetchDonorInfo(gene_id, donor_plot_container, donor_info_container) {
 				const scriptTag = document.createElement("script");
 				scriptTag.textContent = script.replace(/<script.*?>|<\/script>/g, '');
 				donor_plot_container.appendChild(scriptTag);
-
-				resolve();
 			})
 			.catch(err => console.error("Error fetching donor info:", err));
 
@@ -129,14 +128,10 @@ function showDonorInfo(gene_info, donor_plot_container, donor_info_container) {
 
 		fetchDonorInfo(gene_info["EntrezGeneID"], donor_plot_container, donor_info_container)
 			.then(() => {
-				// Insert empty div to signal the end of the stream (event trigger)
-				let endingDiv = document.createElement("div")
+				// Insert scroll down container
+				insertScrollDownContainer(donor_info_container);
 
-				endingDiv.style.height = "0px";
-				endingDiv.className = "donor-ending-div";
-
-				donor_info_container.appendChild(endingDiv);
-				console.log("finalized")
+				// Generate next section
 		});
 	}
 }
