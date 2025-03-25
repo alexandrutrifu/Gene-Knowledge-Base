@@ -33,26 +33,14 @@ function insertReferences(references, parent_section) {
 }
 
 export async function createReferenceSection(gene_info) {
-	// Get reference section element
+	// Get reference section elements
 	const reference_section = document.querySelector(".reference-section");
+	const reference_container = reference_section.querySelector(".reference-container");
 
-	// Get main container elements
-	const title_card_container = reference_section.querySelector(".title-card-container");
-
-	// Insert logo and title
-	const logo_container = title_card_container.querySelector(".ref-logo-container");
-	const title_container = title_card_container.querySelector(".ref-title-container");
-
+	// Reset visibility attributes
 	reference_section.classList.add("active");
-
-	logo_container.innerHTML = `
-		<img src="/static/images/ref-logo.svg"
-			alt="Reference SVG" class="ref-logo">
-	`;
-
-	title_container.innerHTML = `
-		<h2>See References</h2>
-	`;
+	reference_section.style.height = "auto";
+	reference_container.style.height = "auto";
 
 	// Get gene ID
 	const gene_id = gene_info["EntrezGeneID"];

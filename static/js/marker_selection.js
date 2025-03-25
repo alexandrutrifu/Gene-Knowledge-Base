@@ -245,27 +245,51 @@ if (indices.length > 0) {
 
 		gene_info_container.innerHTML = "";
 
-		// Remove following sections, if existent
-		const donor_section = document.querySelector(".donor-section");
+		// "Remove" donor section
+		{
+			const donor_section = document.querySelector(".donor-section");
 
-		// Removal is done smoothly through collapse animation
-		donor_section.classList.add("smooth-section-collapse");
-		donor_section.style.height = donor_section.scrollHeight + "px";
+			// Removal is done smoothly through collapse animation
+			donor_section.classList.add("smooth-section-collapse");
+			donor_section.style.height = donor_section.scrollHeight + "px";
 
-		donor_section.offsetHeight;
+			donor_section.offsetHeight;
 
-		requestAnimationFrame(() => {
-			donor_section.style.height = "0px";
-			donor_section.style.opacity = "0";
-		})
+			requestAnimationFrame(() => {
+				donor_section.style.height = "0";
+				donor_section.style.opacity = "0";
+			})
 
-		setTimeout(() => {
-			donor_section.innerHTML = "";
-			donor_section.style.height = "";
-			donor_section.style.opacity = "";
+			setTimeout(() => {
+				donor_section.style.height = "";
+				donor_section.style.opacity = "";
 
-			donor_section.classList.remove("smooth-section-collapse");
-		}, 2000);
+				// Set sentinel & container heights to 0, simulating observer disconnect()
+				const sentinel = donor_section.querySelector(".sentinel");
+
+				sentinel.style.display = "none";
+
+				const donor_plot_container = donor_section.querySelector(".donor-plot-container");
+				const donor_info_container = donor_section.querySelector(".donor-info-container");
+				const donor_info_box = donor_info_container.querySelector(".donor-info");
+
+				// Reset container content
+				donor_plot_container.innerHTML = ``;
+				donor_info_box.innerHTML = ``;
+
+				donor_section.classList.remove("smooth-section-collapse");
+			}, 2000);
+		}
+
+		// "Remove" reference section
+		{
+			const reference_section = document.querySelector(".reference-section");
+			const reference_container = reference_section.querySelector(".reference-container");
+
+			reference_section.style.height = "0";
+			reference_section.classList.remove("active");
+			reference_container.style.height = "0";
+		}
 
 		// Change URL
 		history.pushState({}, '', `/`);
