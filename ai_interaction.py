@@ -3,13 +3,29 @@ from os import environ
 import time
 
 
-PROMPT_PUBMED = """
-    You are given a list of JSON objects containing PUBMED article references in which a given Gene is mentioned.
+ALL_REF_PROMPT = """
+    You are given the name of a gene and a list of JSON objects containing PUBMED article references in which the given gene is mentioned.
     
-    You must read the text field of the dictionary objects (modelling references) and extract a short, meaningful conclusion about the gene's importance and behavioural influences.
-    To do this, select 10 most relevant articles, print their names and use them as reference for your conclusion.
+    Extract the articles and format a JSON object for each one using this example:
     
-    You can format the response as a bullet list of short conclusions, redacted in a helpful, accessible tone.
+    {
+        "ref_id": <<pubmed_id>>,
+        "conclusion": "<<Gene name>> is involved in <<X>> and is important for <<Y>>."
+    }
+    
+    """
+
+RELEVANT_REF_PROMPT = """
+    You are given the name of a gene and a list of JSON objects containing PUBMED article references in which the given gene is mentioned.
+    
+    Extract 7 relevant articles and format a JSON object for each one using this example:
+    
+    {
+        "ref_id": <<pubmed_id>>,
+        "conclusion": "<<Gene name>> is involved in <<X>> and is important for <<Y>>."
+    }
+    
+    Return your response as a single JSON array with no text or explanation around it.
     """
 
 GENE_INFO_DESC_PROMPT = """
@@ -60,7 +76,7 @@ USER_REQUEST_CONTENT = """
                 adjPVal: 7.184809761833215
                 """
 
-def callOpenAI(dev_prompt, user_request):
+def callOpenAIStream(dev_prompt, user_request):
     """ Returns streaming generator for Open AI interrogation.
 
     :param dev_prompt: Prompt to instruct AI on the desired response format.
@@ -89,3 +105,28 @@ def callOpenAI(dev_prompt, user_request):
             yield (chunk.choices[0].delta.content
                    .replace("\n", " \n"))
             time.sleep(0.1)
+
+def callOpenAI(dev_prompt, user_request):
+    """ Returns Open AI static response.
+
+    :param dev_prompt: Prompt to instruct AI on the desired response format.
+    :param user_request: Request to fetch data for.
+    :return: Open AI response
+    """
+    client = OpenAI(api_key=environ['OPENAI_API_KEY'])
+
+    response = client.chat.completions.create(
+        model="gpt-4o-mini",
+        messages=[
+            {
+                "role": "developer",
+                "content": dev_prompt
+            },
+            {
+                "role": "user",
+                "content": user_request
+            }
+        ],
+    )
+
+    return response.choices[0].message.content
