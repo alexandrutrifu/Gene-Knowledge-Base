@@ -1,12 +1,13 @@
 import json
+from math import trunc
+from threading import Thread
 
 import numpy as np
 from flask import Blueprint, render_template, stream_with_context, Response, jsonify, request
 
 import dataframes
-from ai_interaction import callOpenAI, PROMPT_PUBMED, GENE_INFO_DESC_PROMPT, DONOR_ANALYSIS_PROMPT
+from ai_interaction import callOpenAIStream, GENE_INFO_DESC_PROMPT, DONOR_ANALYSIS_PROMPT, callOpenAI
 from donor_plot import get_age_comparison_plot
-from gene_requests import request_pubmed_references
 from volcano_plot import generate_volcano_plot
 
 from data_interaction import *
@@ -27,6 +28,7 @@ def index():
 
 		clean_dataframe(dataframes.df_limma)
 	else:
+		# Use the original dataframe
 		dataframes.df_limma = dataframes.original_df_limma.copy()
 
 	script, div = generate_volcano_plot(dataframes.df_values, dataframes.df_limma)
@@ -41,10 +43,15 @@ def get_gene_info(gene_id):
 	# Call OpenAI API to request information
 	response = Response(
 		stream_with_context(
-			callOpenAI(dev_prompt=GENE_INFO_DESC_PROMPT, user_request=gene_parameters)
+			callOpenAIStream(dev_prompt=GENE_INFO_DESC_PROMPT, user_request=gene_parameters)
 		),
 		content_type="text/plain"
 	)
+
+	# Prepare gene references in parallel so it doesn't slow down the text stream
+	ref_thread = Thread(target=populate_gene_references, args=(gene_id,), daemon=True)
+
+	ref_thread.start()
 
 	return response
 
@@ -61,7 +68,7 @@ def get_donor_plot(gene_id):
 @main_bp.route('/gene/<gene_id>/donors/stats')
 def get_donor_stats(gene_id):
 	# Get significance level from dataframe
-	gene_name = get_complete_info(gene_id).get_json()["Target"]
+	gene_name = get_complete_info(gene_id)["Target"]
 	adjusted_p_value = dataframes.df_limma["adj_P_Val"][dataframes.df_limma["Target"] == gene_name].iloc[0]
 
 	# Get donor samples
@@ -79,7 +86,7 @@ def get_donor_stats(gene_id):
 	# Call OpenAI API to request information
 	response = Response(
 		stream_with_context(
-			callOpenAI(dev_prompt=DONOR_ANALYSIS_PROMPT, user_request=donor_json)
+			callOpenAIStream(dev_prompt=DONOR_ANALYSIS_PROMPT, user_request=donor_json)
 		),
 		content_type="text/plain"
 	)
@@ -88,15 +95,8 @@ def get_donor_stats(gene_id):
 
 @main_bp.route('/gene/<gene_id>/ref')
 def get_gene_references(gene_id):
-	# Get gene PUBMED references
-	gene_references = str(request_pubmed_references(gene_id))
-
-	#TODO: select most relevant articles to display
-
-	#TODO: add option for viewing the full reference list
+	return jsonify(dataframes.current_gene_references)
 
 @main_bp.route('/gene/<gene_id>/all')
-def get_complete_info(gene_id):
-	gene_info = (dataframes.df_values[dataframes.df_values["EntrezGeneID"] == gene_id])
-
-	return jsonify(gene_info.to_dict(orient="records")[0])
+def get_all_info(gene_id):
+	return jsonify(get_complete_info(gene_id))
