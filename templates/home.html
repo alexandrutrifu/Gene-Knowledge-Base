@@ -49,10 +49,39 @@
 </section>
 {% endblock %}
 
+{% block reference_section %}
+<section class="reference-section">
+    <!-- Gene references go here -->
+    <div class="reference-container">
+        <div class="title-card-container">
+            <div class="ref-logo-container"></div>
+            <div class="ref-title-container"></div>
+        </div>
+
+        <div class="first-ref-row-container">
+            <div class="first-row-ref1"></div>
+            <div class="first-row-ref2"></div>
+        </div>
+
+        <div class="second-ref-row-container">
+            <div class="second-row-ref1"></div>
+            <div class="main-ref"></div>
+            <div class="second-row-ref2"></div>
+        </div>
+
+        <div class="last-ref-row-container">
+            <div class="second-row-ref1"></div>
+            <div class="second-row-ref2"></div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+
 {% block file_import_section %}
 <section class="file-import-section">
     <div class="import-container">
-        <h1>> Want a different data sample? Import <span style="color: #27A127">your own</span>!</h1>
+        <h1>> Want a different data sample? Import <span style="color: #0B31D2">your own</span>!</h1>
 
         <div class="form-container">
             <form enctype="multipart/form-data" action="/" method="post">
