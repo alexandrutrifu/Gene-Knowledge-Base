@@ -1,8 +1,14 @@
+import json
 import sqlite3
 import pandas as pd
 import numpy as np
 import re
 import dataframes
+from flask import jsonify
+
+from ai_interaction import callOpenAI, RELEVANT_REF_PROMPT
+from gene_requests import request_pubmed_references
+
 
 def load_js_callback(filename):
 	with open(filename, 'r') as file:
@@ -83,3 +89,32 @@ def get_gene_parameters(gene_id):
 	}
 
 	return gene_parameters
+
+def get_complete_info(gene_id):
+	gene_info = (dataframes.df_values[dataframes.df_values["EntrezGeneID"] == gene_id])
+
+	return gene_info.to_dict(orient="records")[0]
+
+def populate_gene_references(gene_id):
+	# Get gene name
+	gene_name = get_complete_info(gene_id)["Target"]
+
+	# Get gene PUBMED references
+	gene_references = request_pubmed_references(gene_id)
+
+	request_params = json.dumps({
+		"gene_name": gene_name,
+		"references": gene_references
+	})
+
+	# Call OpenAI API to request relevant references
+	reference_conclusions = callOpenAI(dev_prompt=RELEVANT_REF_PROMPT, user_request=request_params)
+
+	# Clean JSON response if necessary
+	if reference_conclusions.startswith("```json"):
+		reference_conclusions = reference_conclusions.strip("```json").strip("```")
+
+	reference_conclusions = json.loads(reference_conclusions)
+
+	# Populate common resource
+	dataframes.current_gene_references = reference_conclusions
