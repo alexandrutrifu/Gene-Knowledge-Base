@@ -19,9 +19,6 @@ function fetchDonorInfo(gene_id, parent_section) {
 	donor_plot_container.innerHTML = ``;
 
 	return new Promise((resolve, reject) => {
-		// Change URL
-		history.pushState({}, '', `/gene/${gene_id}/donors`);
-
 		// Fetched age comparison plot
 		fetch(`/gene/${gene_id}/donors/plot`)
 			.then(response => response.json())
@@ -122,13 +119,11 @@ function showDonorInfo(gene_info, parent_section) {
 	const donor_info_container = parent_section.querySelector(".donor-info-container");
 	const donor_header = donor_info_container.querySelector(".donor-header");
 
-	const gene_header = document.createElement("h2");
+	const gene_header = donor_header.querySelector("h2");
 
 	gene_header.innerHTML = `
 		Age-group Analysis: <span style="color: #C93175">${gene_info["EntrezGeneSymbol"]}</span>
 	`;
-
-	donor_header.appendChild(gene_header);
 
 	fetchDonorInfo(gene_info["EntrezGeneID"], parent_section)
 		.then(() => {
@@ -154,6 +149,8 @@ export async function createDonorSection() {
 	// Get gene ID from route
 	const pathTokens = window.location.pathname.split("/");
 	const gene_id = pathTokens[pathTokens.indexOf("gene") + 1];
+
+	history.pushState({}, '', `/`);
 
 	// Fetch donor information from Flask backend and populate containers
 	const gene_info = await fetch(`/gene/${gene_id}/all`)
