@@ -79,12 +79,14 @@ function fetchGeneInfo(gene_id, gene_info_text_box) {
  */
 function showGeneInfo(gene_info_container) {
 	if (gene_info_container) {
+		gene_info_container.style.justifyContent = "normal";
+
 		// Opacity -> 1
 		gene_info_container.classList.add("active");
 
 		// Update content based on selected gene
 		gene_info_container.innerHTML = `
-			<div class="gene-header fade-in">
+			<div class="gene-header fade-in" style="display: flex">
 				<div class="dna-icon-div">
 					<img src="/static/images/dna-icon-gene-box.svg"
 						alt="DNA SVG" class="dna-icon">
@@ -243,7 +245,13 @@ if (indices.length > 0) {
 			active_fetch_controller = null;
 		}
 
-		gene_info_container.innerHTML = "";
+		gene_info_container.style.justifyContent = "center";
+		gene_info_container.innerHTML = `
+			<div class="plot-hint fade-in">
+                <h2>Looking for something?</h2>
+                <h3>> Select a plot marker to start</h3>
+            </div>
+		`;
 
 		// "Remove" donor section
 		{
@@ -272,6 +280,11 @@ if (indices.length > 0) {
 				const donor_plot_container = donor_section.querySelector(".donor-plot-container");
 				const donor_info_container = donor_section.querySelector(".donor-info-container");
 				const donor_info_box = donor_info_container.querySelector(".donor-info");
+				const scroll_down = donor_section.querySelector(".scroll-down-container");
+
+				if (scroll_down) {
+					scroll_down.remove();
+				}
 
 				// Reset container content
 				donor_plot_container.innerHTML = ``;
