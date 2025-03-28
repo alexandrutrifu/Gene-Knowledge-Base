@@ -7,11 +7,11 @@ This project consists in the prototype of a **full-stack web service** aimed tow
 ## 🚀 Features
 - **Interactive plot visualization**
   - Used a _volcano plot_ to visualize the significance level of gene regulation in relation with donor age.
-  - Further observed age-related changes in the value-ranges of protein concentration, using _boxplots_.
+  - Further observed age-related changes in the value-ranges of protein concentration, using _box plots_.
 
 - Extracted & parsed public information from the **PubMed database** on the purpose and implications of gene regulation, using **REST API requests**.
-- Summarized and concluded analytical results with the help of **LLM processing** and **OpenAI API** calls.
-- Included the option to **import other statistical datasets** in order to assess their relevance through chosen **parametric tests**.
+- Summarized and concluded analytical results with the help of **LLM processing** and **OpenAI API** calls, using **self-defined prompts**.
+- Included the option to **import other statistical datasets** (_.csv_ files) in order to assess their relevance through chosen **parametric tests**.
 
 ## 🧰 Tech Stack
 | Layer       | Technologies   |
@@ -94,7 +94,57 @@ The `app/` directory contains the following .py modules:
 - `volcano_plot.py`
   - Generates an interactive volcano plot using Bokeh to visualize differential gene expression — highlighting log fold changes and statistical significance.
 
+**_Note:_** In the spirit of developing an **SPA** (Single-Page Application), we decided to design the web routes such that only the root would render an actual HTML template. Therefore, the other routes are simply used to simulate data retrieval and to trigger backend workflows.
+
+This aspect is subject to change as the application grows.
+
 ### 1. Application Logic
 
+The application is built around **three** main zones of interest:
+1) **Gene selector** (includes the results of the chosen parametric test)
+2) **Age-group & donor sample analysis**
+3) **Article references & citations**
 
+### 1.1. Gene Selector
+
+The first section of the web page is centered around the service’s main element – a _volcano plot_ which renders the differential expression of genes across various age groups. Each point on the plot represents a gene, with its position determined by log(fold-change) and an adjusted p-value which determines statistical significance - this enables the identification of strongly regulated genes.
+
+![Gene Info Example](static/images/example1.png)
+
+Based on the gene marker selected by the user, the server sends a request to the **OpenAI API**, retrieving a summary of the selected gene’s role and relevance. This includes an interpretation of the gene’s behaviour under the current experimental conditions.
+
+### 1.2. Donor Sample Analysis
+
+This section focuses on exploring **protein concentration levels** for the selected gene, analyzed across two age groups: **young and elderly donors**. Upon selecting a gene, the backend uses the `donor_plot.py` module to generate a custom _box plot_, which allows the user to visually assess concentration trends and variance between the two groups.
+
+![Donor Info Example](static/images/example2.png)
+
+Using **LLM processing**, our service provides an accurate mapping between the genes' concentration range and the biological behaviours they might influence across donors.
+
+Moreover, this plotting technique highlights possible outliers in the data sample, providing an additional layer of biological insight to the previous findings.
+
+### 1.3. Article Reference Section
+
+The final section of the application focuses on enhancing the scientific context of the data by retrieving relevant literature references from trusted public sources. Once a gene is selected, the backend initiates a workflow via the `gene_requests.py` module, which interacts with the **MyGene.info API** to fetch PubMed articles associated with the gene’s function and regulation.
+
+![Reference Example](static/images/example3.png)
+
+Using another LLM prompt, the application selects **7 most relevant articles**, which are then summarized into a short conclusion and made accessible to the user.
+
+## 🔜 Scalability & Possible Improvements
+
+**1) Changes to `routes.py`**:
+- As stated earlier, route methods could be updated in order to render actual HTML templates, while the resources they currently retrieve could be accessed through secondary helper functions.
+
+**2) Complete Reference Visualization & Filtering**:
+- The user should have the option to access all available gene references, which can be filtered by influenced behaviours or other related genes.
+
+**3) Search Function for the Volcano Plot**:
+- An UX improvement through which the user could select their desired gene by an ID input field, instead of manually searching for the corresponding plot marker.
+
+**4) Matching Import Function for Donor Samples**:
+- An additional import field to modify the donor samples based on which the box plots are generated.
+
+**5) Public Dataset Accessibility**:
+- By imposing a universal datasheet format, the application could parse and handle (other) public databases, without the need of a local file upload. These external databases could be refactored towards the desired format (and field composition) with the help of LLM processing.
 
