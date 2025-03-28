@@ -1,15 +1,23 @@
+import json
 import sqlite3
+import os
 import pandas as pd
 import numpy as np
 import re
-import dataframes
+
+from . import dataframes
+from .ai_interaction import callOpenAI, RELEVANT_REF_PROMPT
+from .gene_requests import request_pubmed_references
+
 
 def load_js_callback(filename):
 	with open(filename, 'r') as file:
 		return file.read()
 
 def get_dataframe(table_name):
-	con = sqlite3.connect('database/gene-knowledge-db')
+	base_dir = os.path.dirname(os.path.abspath(__file__))
+	db_path = os.path.join(base_dir, '../database/gene-knowledge-db')
+	con = sqlite3.connect(db_path)
 
 	# Read the original database
 	cursor = con.cursor()
@@ -50,16 +58,19 @@ def get_donor_data(df, gene_id):
 
 	return yd_values, od_values
 
+def clean_dataframe(df):
+	# Adjust the p-value to be negative log10
+	df['adj.P.Val'] = -1 * df['adj.P.Val'].apply(np.log10)
+
+	# Rename problematic column name
+	df.rename(columns={'adj.P.Val': 'adj_P_Val'}, inplace=True)
+
 def retrieve_dataframes():
 	# Get dataframes from gene database
 	df_values = get_dataframe("s4a_values")
 	df_limma = get_dataframe("s4b_limma")
 
-	# Adjust the p-value to be negative log10
-	df_limma['adj.P.Val'] = -1 * df_limma['adj.P.Val'].apply(np.log10)
-
-	# Rename problematic column name
-	df_limma.rename(columns={'adj.P.Val': 'adj_P_Val'}, inplace=True)
+	clean_dataframe(df_limma)
 
 	return df_values, df_limma
 
@@ -80,3 +91,32 @@ def get_gene_parameters(gene_id):
 	}
 
 	return gene_parameters
+
+def get_complete_info(gene_id):
+	gene_info = (dataframes.df_values[dataframes.df_values["EntrezGeneID"] == gene_id])
+
+	return gene_info.to_dict(orient="records")[0]
+
+def populate_gene_references(gene_id):
+	# Get gene name
+	gene_name = get_complete_info(gene_id)["Target"]
+
+	# Get gene PUBMED references
+	gene_references = request_pubmed_references(gene_id)
+
+	request_params = json.dumps({
+		"gene_name": gene_name,
+		"references": gene_references
+	})
+
+	# Call OpenAI API to request relevant references
+	reference_conclusions = callOpenAI(dev_prompt=RELEVANT_REF_PROMPT, user_request=request_params)
+
+	# Clean JSON response if necessary
+	if reference_conclusions.startswith("```json"):
+		reference_conclusions = reference_conclusions.strip("```json").strip("```")
+
+	reference_conclusions = json.loads(reference_conclusions)
+
+	# Populate common resource
+	dataframes.current_gene_references = reference_conclusions

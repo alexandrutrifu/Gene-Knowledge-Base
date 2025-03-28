@@ -10,9 +10,8 @@
 
     <nav class="main-nav">
         <ul>
-            <li><a href="#">Database</a></li>
-            <li><a href="#">Information</a></li>
-            <li><a href="#">About</a></li>
+            <li><a href="#plot-section">Inspect Plot</a></li>
+            <li><a href="#import-container">Import Database</a></li>
         </ul>
     </nav>
 </header>
@@ -20,15 +19,26 @@
 
 {% block hero %}
 <section class="hero">
-    <div class="hero-title">
-        <span class="symbol">&gt;</span>
-        <h1><strong>Gene knowledge at your fingertips.</strong></h1>
+    <div class="hero-container">
+        <div class="hero-title">
+            <span class="symbol">&gt;</span>
+            <h1><strong> Gene knowledge at your fingertips.</strong></h1>
+        </div>
+        <div class="scroll-down-container">
+            <div class="scroll-down-hint-container">
+                <p><i>Scroll for details</i></p>
+            </div>
+            <div class="down-arrow-container">
+                <img src="/static/images/down-arrow-icon.svg"
+                alt="Arrow SVG" class="down-arrow-icon">
+            </div>
+        </div>
     </div>
 </section>
 {% endblock %}
 
 {% block gene_info %}
-<section class="plot-section">
+<section class="plot-section" id="plot-section">
     <div class="section-container">
         <!-- Main Volcano Plot -->
         <div id="volcano-plot">
@@ -36,7 +46,15 @@
             {{ script|safe }}
         </div>
 
-        <div id="gene-info-box"></div>
+        <div id="gene-info-box">
+            <div class="gene-header fade-in">
+			</div>
+
+            <div class="plot-hint visible">
+                <h2>Looking for something?</h2>
+                <h3>> Select a plot marker to start</h3>
+            </div>
+        </div>
     </div>
 
     <div class="sentinel"></div>
@@ -45,6 +63,125 @@
 
 {% block donor_info %}
 <section class="donor-section">
+    <div class="donor-container">
+        <div class="donor-info-container">
+            <div class="donor-header">
+				<div class="donor-icon-div">
+					<img src="/static/images/donor-icon.svg"
+						alt="Donor SVG" class="donor-icon">
+				</div>
+                <h2></h2>
+			</div>
+
+            <div class="donor-info"></div>
+        </div>
+
+        <div class="donor-plot-container"></div>
+    </div>
+
+    <div class="sentinel"></div>
     <!-- Donor Plot -->
+</section>
+{% endblock %}
+
+{% block reference_section %}
+<section class="reference-section">
+    <!-- Gene references go here -->
+    <div class="reference-container">
+        <div class="title-card-container">
+            <div class="ref-logo-container">
+                <img src="/static/images/ref-logo.svg"
+			        alt="Reference SVG" class="ref-logo">
+            </div>
+            <div class="ref-title-container">
+                <h2>See References</h2>
+            </div>
+        </div>
+
+        <div class="first-ref-row-container">
+            <div class="first-row-ref1"></div>
+            <div class="first-row-ref2"></div>
+        </div>
+
+        <div class="second-ref-row-container">
+            <div class="ref-rows">
+                <div class="second-row-ref1"></div>
+                <div class="main-ref"></div>
+                <div class="second-row-ref2"></div>
+            </div>
+
+            <div class="read-article-box">
+                <h2>
+                    <i>> Click any link to read the article</i>
+                </h2>
+            </div>
+        </div>
+
+        <div class="last-ref-row-container">
+            <div class="last-row-ref1"></div>
+            <div class="last-row-ref2"></div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+
+{% block file_import_section %}
+<section class="file-import-section">
+    <div class="import-container" id="import-container">
+        <h1>> Want a different data sample? Import <span style="color: #0B31D2">your own</span>!</h1>
+
+        <div class="form-container">
+            <form enctype="multipart/form-data" action="/" method="post">
+                <label>
+                    <input type="file" name="file" accept=".csv"/>
+                    <img src="/static/images/submit-csv-button.svg"
+                        alt="Submit Button SVG" class="submit-csv-button">
+                </label>
+
+                <script>
+                    document.querySelector('input[type="file"]').addEventListener('change', function () {
+                        this.form.submit();
+                    });
+                </script>
+            </form>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block footer %}
+<section class="footer">
+    <div class="footer-container">
+        <div class="separator-container">
+            <img src="/static/images/footer-separator.svg"
+                 alt="Separator SVG" class="footer-separator-icon">
+        </div>
+
+        <div class="footer-info-container">
+            <div class="footer-title-container">
+                <div class="footer-logo">
+                    <img src="/static/images/dna-icon.svg"
+                        alt="Separator SVG" class="footer-logo-icon">
+                </div>
+
+                <div class="footer-title">
+                    <h2>Gene</h2>
+                    <h2>Knowledge</h2>
+                    <h2>©2025</h2>
+                </div>
+            </div>
+
+            <div class="footer-say-hi-container">
+                <div class="footer-say-hi">
+                    <h2>Say Hi!</h2>
+                </div>
+
+                <div class="footer-email">
+                    <h2>alexandru.trifu.urzica@jetbrains.com</h2>
+                </div>
+            </div>
+        </div>
+    </div>
 </section>
 {% endblock %}

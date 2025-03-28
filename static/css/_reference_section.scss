@@ -1,0 +1,192 @@
+%ref-template {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	height: 100%;
+	max-width: 50%;
+
+	h2 {
+		font-family: "Apercu", serif;
+		font-weight: normal;
+		font-size: 1.5rem;
+		text-align: center;
+		color: #191919;
+		opacity: 20%;
+		max-width: 60%;
+		transition: transform 0.2s ease, opacity 0.2s ease;
+	}
+
+	h2:hover {
+		transform: scale(1.05);
+		opacity: 80%;
+	}
+}
+
+.reference-section {
+	display: flex;
+	flex-direction: column;
+	height: 0;
+
+	opacity: 0;
+	transition: height 2s ease, opacity 1s ease;
+
+	&.active {
+		opacity: 1;
+	}
+
+	.sentinel {
+		display: block;
+		width: 100%;
+		height: 1px;
+		margin-bottom: 10rem;
+	}
+
+	.reference-container {
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		margin-top: 5rem;
+		margin-bottom: 10rem;
+
+		height: 0;
+
+		.title-card-container {
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+
+			.ref-logo-container {
+				display: flex;
+				flex-direction: row;
+				justify-content: center;
+
+				.ref-logo {
+
+				}
+			}
+
+			.ref-title-container {
+				display: flex;
+				flex-direction: row;
+				justify-content: center;
+				margin-top: 0.3rem;
+
+				h2 {
+					font-family: "Iosevka Slab", serif;
+					font-size: 2.2rem;
+					letter-spacing: -0.05em;
+					color: $tekhelet;
+					margin: 0;
+			  }
+			}
+		}
+
+		.first-ref-row-container {
+			display: flex;
+			flex-direction: row;
+			justify-content: center;
+			min-height: 5rem;
+			margin-top: 5rem;
+
+			.first-row-ref1 {
+				@extend %ref-template;
+
+				h2 {
+					margin-left: 10rem;
+				}
+			}
+
+			.first-row-ref2 {
+				@extend %ref-template;
+
+				h2 {
+					margin-right: 10rem;
+				}
+			}
+		}
+
+		.second-ref-row-container {
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
+
+			margin-bottom: 3rem;
+			margin-top: 3rem;
+
+			.read-article-box {
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+				align-items: center;
+
+				h2 {
+					font-family: "Iosevka Slab", serif;
+					font-weight: normal;
+					font-size: 1.5rem;
+					text-align: center;
+					color: $tekhelet;
+				}
+			}
+
+			.ref-rows {
+				display: flex;
+				flex-direction: row;
+				justify-content: center;
+				align-items: center;
+
+				.second-row-ref1 {
+					@extend %ref-template;
+
+					max-width: 30%;
+				}
+
+				.second-row-ref2 {
+					@extend %ref-template;
+
+					max-width: 30%;
+				}
+
+				.main-ref {
+					@extend %ref-template;
+					position: relative;
+					max-width: 40%;
+					height: 10rem;
+
+					h2 {
+						position: relative;
+						max-width: 70%;
+						z-index: 1;
+						opacity: 1;
+					}
+				}
+			}
+		}
+
+		.last-ref-row-container {
+			display: flex;
+			flex-direction: row;
+			justify-content: center;
+			min-height: 5rem;
+			margin-top: 5rem;
+
+			.last-row-ref1 {
+				@extend %ref-template;
+
+				h2 {
+					margin-left: 10rem;
+				}
+			}
+
+			.last-row-ref2 {
+				@extend %ref-template;
+
+				h2 {
+					margin-right: 10rem;
+				}
+			}
+		}
+	}
+}

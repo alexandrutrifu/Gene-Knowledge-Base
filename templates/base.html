@@ -8,13 +8,14 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 
     <!-- JavaScript -->
+    <script type=module src="{{ url_for('static', filename='js/scroll_down_containers.js') }}"></script>
     <script type=module src="{{ url_for('static', filename='js/observe_donor_section.js') }}"></script>
     <script type=module src="{{ url_for('static', filename='js/page_navigation.js') }}"></script>
     <script type=module src="{{ url_for('static', filename='js/donor_section.js') }}"></script>
     <script type=module src="{{ url_for('static', filename='js/arrow_bounce.js') }}"></script>
     <script type=module src="{{ url_for('static', filename='js/section_end_pointer.js') }}"></script>
     <script src="{{ url_for('static', filename='js/observe_gene_info.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/scrollup.js') }}"></script>
+    <script type=module src="{{ url_for('static', filename='js/scrollup.js') }}"></script>
 
     <!-- Bokeh Resources -->
     <link rel="stylesheet" href="https://cdn.bokeh.org/bokeh/release/bokeh-3.6.3.min.css" type="text/css">
@@ -26,5 +27,8 @@
     {% block hero %}{% endblock %}
     {% block gene_info %}{% endblock %}
     {% block donor_info %}{% endblock %}
+    {% block reference_section %}{% endblock %}
+    {% block file_import_section %}{% endblock %}
+    {% block footer %} {% endblock %}
 </body>
 </html>

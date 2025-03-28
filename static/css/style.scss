@@ -5,6 +5,9 @@
 @import 'hero';
 @import 'plot_section';
 @import 'donor_section';
+@import 'reference_section';
+@import 'import_section';
+@import 'footer';
 
 html, body {
     margin: 0;
@@ -12,4 +15,5 @@ html, body {
     font-family: "Apercu", sans-serif;
     font-size: 16px;
     background: white;
+    scroll-behavior: smooth;
 }

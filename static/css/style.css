@@ -101,60 +101,71 @@
   color: #0B31D2;
 }
 
-.hero {
+.hero .hero-container {
   position: relative;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
   margin: 15rem auto 4rem;
-  max-width: 800px;
+  max-width: 60rem;
+  opacity: 0;
   transform: scale(1.2);
-  overflow: visible;
+  transition: opacity 1s ease;
 }
-.hero .hero-title {
+.hero .hero-container.active {
+  transform: translateY(0);
+  opacity: 1;
+}
+.hero .hero-container .hero-title {
   display: flex;
   align-items: center;
   margin-bottom: 1rem;
   font-family: Iosevka, monospace;
   font-weight: bold;
-  font-size: 2.5rem;
+  font-size: 3rem;
   text-align: center;
   letter-spacing: -0.2rem;
   color: #0B31D2;
-  opacity: 0;
   transition: opacity 1s ease;
 }
-.hero .hero-title .symbol {
-  margin-bottom: 4rem;
+.hero .hero-container .hero-title .symbol {
+  margin-bottom: 5rem;
   transform: scale(1.4);
   opacity: inherit;
 }
-.hero .hero-title h1 {
+.hero .hero-container .hero-title h1 {
   margin: 0;
+  font-size: 5rem;
 }
-.hero .hero-title.active {
-  transform: translateY(0);
-  opacity: 1;
-}
-.hero .arrow {
-  z-index: 20;
-  cursor: pointer;
-  position: absolute;
-  top: -80%;
-  margin-left: 1rem;
-  transform: scale(0.15);
-}
-.hero .hero-text-box {
+.hero .hero-container .hero-text-box {
   display: flex;
   align-items: flex-start;
   margin-left: 2.7rem;
 }
-.hero .hero-text-box .hero-text {
+.hero .hero-container .hero-text-box .hero-text {
   font-family: "Apercu", serif;
   font-size: 1.4rem;
   max-width: 600px;
   line-height: 1.5;
   color: #191919;
+}
+.hero .hero-container .scroll-down-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 3rem;
+}
+.hero .hero-container .scroll-down-container .scroll-down-hint-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.hero .hero-container .scroll-down-container .scroll-down-hint-container p {
+  font-family: "Iosevka Slab", serif;
+  font-size: 1.2rem;
+  color: #191919;
+}
+.hero .hero-container .scroll-down-container .down-arrow-container .down-arrow-icon {
+  filter: invert(12%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(10%) contrast(30%);
 }
 
 .plot-section {
@@ -200,17 +211,38 @@
   flex-direction: column;
   gap: 0.5rem;
   max-width: 38%;
+  justify-content: center;
   margin-left: -3rem;
-  opacity: 0;
+  opacity: 1;
   transition: opacity 0.5s ease;
 }
 .plot-section .section-container #gene-info-box.active {
   transform: translateY(0);
   opacity: 1;
 }
+.plot-section .section-container #gene-info-box .plot-hint {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: auto;
+  transition: opacity 0.5s ease;
+}
+.plot-section .section-container #gene-info-box .plot-hint h2 {
+  font-family: "Iosevka Slab", serif;
+  font-weight: bold;
+  font-size: 2.5rem;
+  color: #191919;
+  margin: 0;
+}
+.plot-section .section-container #gene-info-box .plot-hint h3 {
+  font-family: "Iosevka Slab", serif;
+  font-weight: normal;
+  color: #0B31D2;
+}
 .plot-section .section-container #gene-info-box .gene-header {
   flex: 1;
-  display: flex;
+  display: none;
   flex-direction: row;
   max-height: 6rem;
   margin-top: 6rem;
@@ -230,6 +262,8 @@
   font-size: 2.2rem;
   vertical-align: center;
   color: black;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
 }
 .plot-section .section-container #gene-info-box .gene-info {
   font-family: "Apercu", serif;
@@ -262,6 +296,7 @@
 .donor-section {
   display: flex;
   flex-direction: column;
+  height: 0;
   opacity: 0;
   transition: height 2s ease, opacity 1s ease;
 }
@@ -269,7 +304,7 @@
   opacity: 1;
 }
 .donor-section .sentinel {
-  display: block;
+  display: none;
   width: 100%;
   height: 1px;
   margin-bottom: 10rem;
@@ -330,26 +365,257 @@
   color: #191919;
   padding-left: 2rem;
 }
-.donor-section .donor-container .donor-info-container .donor-scroll-down-container {
+.donor-section .donor-container .donor-info-container .scroll-down-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   margin-top: 5rem;
 }
-.donor-section .donor-container .donor-info-container .donor-scroll-down-container .donor-scroll-down-hint-container {
+.donor-section .donor-container .donor-info-container .scroll-down-container .scroll-down-hint-container {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
-.donor-section .donor-container .donor-info-container .donor-scroll-down-container .donor-scroll-down-hint-container p {
+.donor-section .donor-container .donor-info-container .scroll-down-container .scroll-down-hint-container p {
   font-family: "Iosevka Slab", serif;
   font-size: 1.2rem;
   color: #C93175;
 }
-.donor-section .donor-container .donor-info-container .donor-scroll-down-container .donor-down-arrow-container {
+.donor-section .donor-container .donor-info-container .scroll-down-container .down-arrow-container .down-arrow-icon {
+  filter: invert(22%) sepia(89%) saturate(2270%) hue-rotate(306deg) brightness(89%) contrast(94%);
+}
+
+.reference-section .reference-container .last-ref-row-container .last-row-ref2, .reference-section .reference-container .last-ref-row-container .last-row-ref1, .reference-section .reference-container .second-ref-row-container .ref-rows .main-ref, .reference-section .reference-container .second-ref-row-container .ref-rows .second-row-ref2, .reference-section .reference-container .second-ref-row-container .ref-rows .second-row-ref1, .reference-section .reference-container .first-ref-row-container .first-row-ref2, .reference-section .reference-container .first-ref-row-container .first-row-ref1 {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  max-width: 50%;
+}
+.reference-section .reference-container .last-ref-row-container .last-row-ref2 h2, .reference-section .reference-container .last-ref-row-container .last-row-ref1 h2, .reference-section .reference-container .second-ref-row-container .ref-rows .main-ref h2, .reference-section .reference-container .second-ref-row-container .ref-rows .second-row-ref2 h2, .reference-section .reference-container .second-ref-row-container .ref-rows .second-row-ref1 h2, .reference-section .reference-container .first-ref-row-container .first-row-ref2 h2, .reference-section .reference-container .first-ref-row-container .first-row-ref1 h2 {
+  font-family: "Apercu", serif;
+  font-weight: normal;
+  font-size: 1.5rem;
+  text-align: center;
+  color: #191919;
+  opacity: 20%;
+  max-width: 60%;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+.reference-section .reference-container .last-ref-row-container .last-row-ref2 h2:hover, .reference-section .reference-container .last-ref-row-container .last-row-ref1 h2:hover, .reference-section .reference-container .second-ref-row-container .ref-rows .main-ref h2:hover, .reference-section .reference-container .second-ref-row-container .ref-rows .second-row-ref2 h2:hover, .reference-section .reference-container .second-ref-row-container .ref-rows .second-row-ref1 h2:hover, .reference-section .reference-container .first-ref-row-container .first-row-ref2 h2:hover, .reference-section .reference-container .first-ref-row-container .first-row-ref1 h2:hover {
+  transform: scale(1.05);
+  opacity: 80%;
+}
+
+.reference-section {
+  display: flex;
+  flex-direction: column;
+  height: 0;
+  opacity: 0;
+  transition: height 2s ease, opacity 1s ease;
+}
+.reference-section.active {
+  opacity: 1;
+}
+.reference-section .sentinel {
+  display: block;
+  width: 100%;
+  height: 1px;
+  margin-bottom: 10rem;
+}
+.reference-section .reference-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-top: 5rem;
+  margin-bottom: 10rem;
+  height: 0;
+}
+.reference-section .reference-container .title-card-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.reference-section .reference-container .title-card-container .ref-logo-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+.reference-section .reference-container .title-card-container .ref-title-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin-top: 0.3rem;
+}
+.reference-section .reference-container .title-card-container .ref-title-container h2 {
+  font-family: "Iosevka Slab", serif;
+  font-size: 2.2rem;
+  letter-spacing: -0.05em;
+  color: #4827A1;
+  margin: 0;
+}
+.reference-section .reference-container .first-ref-row-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  min-height: 5rem;
+  margin-top: 5rem;
+}
+.reference-section .reference-container .first-ref-row-container .first-row-ref1 h2 {
+  margin-left: 10rem;
+}
+.reference-section .reference-container .first-ref-row-container .first-row-ref2 h2 {
+  margin-right: 10rem;
+}
+.reference-section .reference-container .second-ref-row-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 3rem;
+  margin-top: 3rem;
+}
+.reference-section .reference-container .second-ref-row-container .read-article-box {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.reference-section .reference-container .second-ref-row-container .read-article-box h2 {
+  font-family: "Iosevka Slab", serif;
+  font-weight: normal;
+  font-size: 1.5rem;
+  text-align: center;
+  color: #4827A1;
+}
+.reference-section .reference-container .second-ref-row-container .ref-rows {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+.reference-section .reference-container .second-ref-row-container .ref-rows .second-row-ref1 {
+  max-width: 30%;
+}
+.reference-section .reference-container .second-ref-row-container .ref-rows .second-row-ref2 {
+  max-width: 30%;
+}
+.reference-section .reference-container .second-ref-row-container .ref-rows .main-ref {
+  position: relative;
+  max-width: 40%;
+  height: 10rem;
+}
+.reference-section .reference-container .second-ref-row-container .ref-rows .main-ref h2 {
+  position: relative;
+  max-width: 70%;
+  z-index: 1;
+  opacity: 1;
+}
+.reference-section .reference-container .last-ref-row-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  min-height: 5rem;
+  margin-top: 5rem;
+}
+.reference-section .reference-container .last-ref-row-container .last-row-ref1 h2 {
+  margin-left: 10rem;
+}
+.reference-section .reference-container .last-ref-row-container .last-row-ref2 h2 {
+  margin-right: 10rem;
+}
+
+.file-import-section .import-container {
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-top: 10rem;
+  margin-bottom: 10rem;
+}
+.file-import-section .import-container h1 {
+  font-family: "Iosevka Slab", serif;
+  font-weight: normal;
+  font-size: 1.8rem;
+  letter-spacing: -0.1rem;
+  color: #191919;
+  margin: 0;
+}
+.file-import-section .import-container input[type=file] {
+  display: none;
+}
+.file-import-section .import-container .form-container .submit-csv-button {
+  cursor: pointer;
+  scale: 80%;
+  transition: transform 0.2s ease;
+}
+.file-import-section .import-container .form-container .submit-csv-button:hover {
+  transform: scale(1.05);
+}
+
+.footer .footer-container {
+  display: flex;
+  flex-direction: column;
+  margin-top: 4rem;
+  margin-bottom: 4rem;
+}
+.footer .footer-container .separator-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 4rem;
+  margin-bottom: 2rem;
+}
+.footer .footer-container .separator-container .footer-separator-icon {
+  filter: brightness(0) saturate(0%) contrast(100%) opacity(20%);
+}
+.footer .footer-container .footer-info-container {
+  display: flex;
+  flex-direction: row;
+  gap: 10rem;
+}
+.footer .footer-container .footer-info-container .footer-title-container {
+  display: flex;
+  flex-direction: row;
+  color: #C2C2C2;
+  margin-left: 5rem;
+}
+.footer .footer-container .footer-info-container .footer-title-container .footer-logo {
+  margin-top: 0.3rem;
+}
+.footer .footer-container .footer-info-container .footer-title-container .footer-logo .footer-logo-icon {
+  width: 4.3rem;
+  height: 4.3rem;
+  filter: brightness(0) saturate(0%) contrast(100%) opacity(20%);
+}
+.footer .footer-container .footer-info-container .footer-title-container .footer-title {
+  display: flex;
+  flex-direction: column;
+}
+.footer .footer-container .footer-info-container .footer-title-container .footer-title h2 {
+  font-family: "Iosevka Slab", serif;
+  font-weight: normal;
+  color: inherit;
+  margin: 0;
+}
+.footer .footer-container .footer-info-container .footer-say-hi-container {
+  display: flex;
+  flex-direction: column;
+  color: #C2C2C2;
+}
+.footer .footer-container .footer-info-container .footer-say-hi-container .footer-say-hi h2 {
+  font-family: "Iosevka Slab", serif;
+  font-weight: normal;
+  color: inherit;
+  margin: 0;
+}
+.footer .footer-container .footer-info-container .footer-say-hi-container .footer-email h2 {
+  font-family: "Iosevka Slab", serif;
+  font-weight: normal;
+  font-size: 1.5rem;
+  color: inherit;
+  margin: 0;
 }
 
 html, body {
@@ -358,4 +624,5 @@ html, body {
   font-family: "Apercu", sans-serif;
   font-size: 16px;
   background: white;
+  scroll-behavior: smooth;
 }

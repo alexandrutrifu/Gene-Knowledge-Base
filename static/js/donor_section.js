@@ -1,4 +1,6 @@
 import { observeDonorSentinel } from "./observe_donor_section.js"
+import { insertScrollDownContainer } from "./scroll_down_containers.js";
+import { createReferenceSection } from "./reference_section.js";
 
 
 // Monitor active fetch requests through global variable
@@ -7,13 +9,16 @@ let active_fetch_controller = null
 /** Fetches donor information & plot based on OpenAI backend calls
  *
  * @param gene_id EntrezGeneID
- * @param donor_plot_container
+ * @param parent_section
  */
-function fetchDonorInfo(gene_id, donor_plot_container, donor_info_container) {
-	return new Promise((resolve, reject) => {
-		// Change URL
-		history.pushState({}, '', `/gene/${gene_id}/donors`);
+function fetchDonorInfo(gene_id, parent_section) {
+	const donor_plot_container = parent_section.querySelector(".donor-plot-container");
+	const donor_info_container = parent_section.querySelector(".donor-info-container");
 
+	// Reset container content
+	donor_plot_container.innerHTML = ``;
+
+	return new Promise((resolve, reject) => {
 		// Fetched age comparison plot
 		fetch(`/gene/${gene_id}/donors/plot`)
 			.then(response => response.json())
@@ -30,8 +35,6 @@ function fetchDonorInfo(gene_id, donor_plot_container, donor_info_container) {
 				const scriptTag = document.createElement("script");
 				scriptTag.textContent = script.replace(/<script.*?>|<\/script>/g, '');
 				donor_plot_container.appendChild(scriptTag);
-
-				resolve();
 			})
 			.catch(err => console.error("Error fetching donor info:", err));
 
@@ -45,6 +48,9 @@ function fetchDonorInfo(gene_id, donor_plot_container, donor_info_container) {
 
 		// Get gene information div element to append text in
 		let donor_info_box = donor_info_container.querySelector(".donor-info");
+
+		// Reset container content
+		donor_info_box.innerHTML = ``;
 
 		// Interpret donor samples & summarize through OpenAI call
 		fetch(`/gene/${gene_id}/donors/stats`, {signal})
@@ -106,63 +112,37 @@ function fetchDonorInfo(gene_id, donor_plot_container, donor_info_container) {
 /** Inserts donor information inside the corresponding DOM container
  *
  * @param gene_info Dictionary with complete gene records
- * @param donor_plot_container
- * @param donor_info_container
+ * @param parent_section
  */
-function showDonorInfo(gene_info, donor_plot_container, donor_info_container) {
-	if (donor_info_container) {
-		// Update content based on selected gene
-		donor_info_container.innerHTML = `
-			<div class="donor-header">
-				<div class="donor-icon-div">
-					<img src="/static/images/donor-icon.svg"
-						alt="Donor SVG" class="donor-icon">
-				</div>
-				
-				<h2>Age-group Analysis: <span style="color: #C93175">${gene_info["EntrezGeneSymbol"]}</span></h2>
-			</div>
-			
-			<div class="donor-info">
-				<!--- Placeholder for text spans which will fade in --->
-			</div>
-		`;
+function showDonorInfo(gene_info, parent_section) {
+	// Update content based on selected gene
+	const donor_info_container = parent_section.querySelector(".donor-info-container");
+	const donor_header = donor_info_container.querySelector(".donor-header");
 
-		fetchDonorInfo(gene_info["EntrezGeneID"], donor_plot_container, donor_info_container)
-			.then(() => {
-				// Insert empty div to signal the end of the stream (event trigger)
-				let endingDiv = document.createElement("div")
+	const gene_header = donor_header.querySelector("h2");
 
-				endingDiv.style.height = "0px";
-				endingDiv.className = "donor-ending-div";
+	gene_header.innerHTML = `
+		Age-group Analysis: <span style="color: #C93175">${gene_info["EntrezGeneSymbol"]}</span>
+	`;
 
-				donor_info_container.appendChild(endingDiv);
-				console.log("finalized")
-		});
-	}
+	fetchDonorInfo(gene_info["EntrezGeneID"], parent_section)
+		.then(() => {
+			// Insert scroll down container
+			insertScrollDownContainer(donor_info_container);
+
+			// Generate next section
+			createReferenceSection(gene_info);
+	});
 }
 
 export async function createDonorSection() {
-	// Get donor section element
+	// Get donor section elements
 	const donor_section = document.querySelector(".donor-section");
+	const sentinel = donor_section.querySelector(".sentinel");
 
-	// Create main containers
-	const donor_container = document.createElement("div");
-	const donor_sentinel = document.createElement("div");
-	const donor_plot_container = document.createElement("div");
-	const donor_info_container = document.createElement("div");
-
-	donor_container.className = "donor-container";
-	donor_sentinel.className = "sentinel";
-	donor_plot_container.className = "donor-plot-container";
-	donor_info_container.className = "donor-info-container";
-
-	// donor_section.classList.add("fade-in");
-
-	// Append child containers
-	donor_container.appendChild(donor_info_container);
-	donor_container.appendChild(donor_plot_container);
-	donor_section.appendChild(donor_container);
-	donor_section.appendChild(donor_sentinel);
+	// Reset height - opacity will be reset by observer
+	donor_section.style.height = "auto";
+	sentinel.style.display = "block";
 
 	observeDonorSentinel();
 
@@ -170,11 +150,13 @@ export async function createDonorSection() {
 	const pathTokens = window.location.pathname.split("/");
 	const gene_id = pathTokens[pathTokens.indexOf("gene") + 1];
 
+	history.pushState({}, '', `/`);
+
 	// Fetch donor information from Flask backend and populate containers
 	const gene_info = await fetch(`/gene/${gene_id}/all`)
 									.then(response => response.json());
 
 	console.log(gene_info);
 
-	showDonorInfo(gene_info, donor_plot_container, donor_info_container);
+	showDonorInfo(gene_info, donor_section);
 }

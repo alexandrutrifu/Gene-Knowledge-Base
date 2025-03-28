@@ -1,0 +1,35 @@
+.file-import-section {
+	.import-container {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+
+		margin-top: 10rem;
+		margin-bottom: 10rem;
+
+		h1 {
+			font-family: "Iosevka Slab", serif;
+			font-weight: normal;
+			font-size: 1.8rem;
+			letter-spacing: -0.1rem;
+			color: #191919;
+			margin: 0;
+		}
+
+		input[type="file"] {
+			display: none;
+		}
+
+		.form-container {
+			.submit-csv-button {
+				cursor: pointer;
+				scale: 80%;
+				transition: transform 0.2s ease;
+			}
+
+			.submit-csv-button:hover {
+				transform: scale(1.05);
+			}
+		}
+	}
+}

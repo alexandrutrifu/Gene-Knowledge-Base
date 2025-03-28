@@ -3,7 +3,7 @@ from bokeh.embed import components
 from bokeh.plotting import figure, show
 from bokeh.models import ColumnDataSource, HoverTool
 
-from data_interaction import get_donor_data
+from .data_interaction import get_donor_data
 
 
 def get_age_comparison_plot(df, gene_id):

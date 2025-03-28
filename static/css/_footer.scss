@@ -1,0 +1,82 @@
+.footer {
+	.footer-container {
+		display: flex;
+		flex-direction: column;
+		margin-top: 4rem;
+		margin-bottom: 4rem;
+
+		.separator-container {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+
+			margin-top: 4rem;
+			margin-bottom: 2rem;
+
+			.footer-separator-icon {
+				filter: brightness(0) saturate(0%) contrast(100%) opacity(20%);
+			}
+		}
+
+		.footer-info-container {
+			display: flex;
+			flex-direction: row;
+			gap: 10rem;
+
+			.footer-title-container {
+				display: flex;
+				flex-direction: row;
+				color: $silver;
+
+				margin-left: 5rem;
+
+				.footer-logo {
+					margin-top: 0.3rem;
+
+					.footer-logo-icon {
+						width: 4.3rem;
+						height: 4.3rem;
+						filter: brightness(0) saturate(0%) contrast(100%) opacity(20%);
+					}
+				}
+
+				.footer-title {
+					display: flex;
+					flex-direction: column;
+
+					h2 {
+						font-family: "Iosevka Slab", serif;
+						font-weight: normal;
+						color: inherit;
+						margin: 0;
+					}
+				}
+			}
+
+		  	.footer-say-hi-container {
+				display: flex;
+				flex-direction: column;
+				color: $silver;
+
+				.footer-say-hi {
+					h2 {
+						font-family: "Iosevka Slab", serif;
+						font-weight: normal;
+						color: inherit;
+						margin: 0;
+					}
+				}
+
+				.footer-email {
+					h2 {
+						font-family: "Iosevka Slab", serif;
+						font-weight: normal;
+						font-size: 1.5rem;
+						color: inherit;
+						margin: 0;
+					}
+				}
+			}
+		}
+	}
+}

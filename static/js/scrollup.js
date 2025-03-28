@@ -1,5 +1,9 @@
+import {animateArrow} from "./arrow_bounce.js";
+
 document.addEventListener('DOMContentLoaded', function () {
-  const heroTitle = document.querySelector('.hero-title');
+  const hero_container = document.querySelector('.hero-container');
+  const hero_title = hero_container.querySelector(".hero-title");
+  const arrow = hero_container.querySelector(".down-arrow-container");
 
   const observerOptions = {
     root: null,
@@ -9,14 +13,15 @@ document.addEventListener('DOMContentLoaded', function () {
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.intersectionRatio >= 0.5) {
-        heroTitle.classList.add('active');
+        hero_container.classList.add('active');
+        animateArrow(arrow);
       } else {
-        heroTitle.classList.remove('active');
+        hero_container.classList.remove('active');
       }
     });
   }, observerOptions);
 
-  if (heroTitle) {
-    observer.observe(heroTitle);
+  if (hero_title) {
+    observer.observe(hero_title);
   }
 });
