@@ -1,67 +1,84 @@
 .hero {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  margin: 15rem auto 4rem;
-  max-width: 800px;
+	.hero-container {
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		margin: 15rem auto 4rem;
+		max-width: 60rem;
+		opacity: 0;
 
-  transform: scale(1.2);
+		transform: scale(1.2);
+		transition: opacity 1s ease;
 
-  overflow: visible;
+		&.active {
+		  transform: translateY(0);
+		  opacity: 1;
+		}
 
-  .hero-title {
-    display: flex;
-    align-items: center;
-    margin-bottom: 1rem;
+		.hero-title {
+			display: flex;
+			align-items: center;
+			margin-bottom: 1rem;
 
-    font-family: Iosevka, monospace;
-    font-weight: bold;
-    font-size: 2.5rem;
-    text-align: center;
-    letter-spacing: -0.2rem;
-    color: $persian_blue;
+			font-family: Iosevka, monospace;
+			font-weight: bold;
+			font-size: 3rem;
+			text-align: center;
+			letter-spacing: -0.2rem;
+			color: $persian_blue;
 
-    opacity: 0;
-    transition: opacity 1s ease;
+			transition: opacity 1s ease;
 
-    .symbol {
-      margin-bottom: 4rem;
-      transform: scale(1.4);
-      opacity: inherit;
-    }
+			.symbol {
+			  margin-bottom: 5rem;
+			  transform: scale(1.4);
+			  opacity: inherit;
+			}
 
-    h1 {
-      margin: 0;
-    }
+			h1 {
+			  margin: 0;
+				font-size: 5rem;
+			}
+		  }
 
-    &.active {
-      transform: translateY(0);
-      opacity: 1;
-    }
-  }
+		  .hero-text-box {
+			display: flex;
+			align-items: flex-start;
+			margin-left: 2.7rem;
 
-  .arrow {
-    z-index: 20;
-    cursor: pointer;
-    position: absolute;
-    top: -80%;
-    margin-left: 1rem;
-    transform: scale(0.15);
-  }
+			.hero-text {
+			  font-family: "Apercu", serif;
+			  font-size: 1.4rem;
 
-  .hero-text-box {
-    display: flex;
-    align-items: flex-start;
-    margin-left: 2.7rem;
+			  max-width: 600px;
+			  line-height: 1.5;
+			  color: #191919;
+			}
+		  }
 
-    .hero-text {
-      font-family: "Apercu", serif;
-      font-size: 1.4rem;
+		.scroll-down-container {
+			  display: flex;
+			  flex-direction: column;
+			  align-items: center;
+			  margin-top: 3rem;
 
-      max-width: 600px;
-      line-height: 1.5;
-      color: #191919;
-    }
-  }
+				.scroll-down-hint-container {
+					display: flex;
+					flex-direction: column;
+					align-items: center;
+
+					p {
+					  font-family: "Iosevka Slab", serif;
+					  font-size: 1.2rem;
+					  color: #191919;
+					}
+				}
+
+				.down-arrow-container {
+					.down-arrow-icon {
+						filter: invert(12%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(10%) contrast(30%);
+					}
+				}
+			}
+	}
 }

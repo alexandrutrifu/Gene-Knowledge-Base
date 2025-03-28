@@ -10,9 +10,8 @@
 
     <nav class="main-nav">
         <ul>
-            <li><a href="#">Database</a></li>
-            <li><a href="#">Information</a></li>
-            <li><a href="#">About</a></li>
+            <li><a href="#plot-section">Inspect Plot</a></li>
+            <li><a href="#import-container">Import Database</a></li>
         </ul>
     </nav>
 </header>
@@ -20,15 +19,26 @@
 
 {% block hero %}
 <section class="hero">
-    <div class="hero-title">
-        <span class="symbol">&gt;</span>
-        <h1><strong>Gene knowledge at your fingertips.</strong></h1>
+    <div class="hero-container">
+        <div class="hero-title">
+            <span class="symbol">&gt;</span>
+            <h1><strong> Gene knowledge at your fingertips.</strong></h1>
+        </div>
+        <div class="scroll-down-container">
+            <div class="scroll-down-hint-container">
+                <p><i>Scroll for details</i></p>
+            </div>
+            <div class="down-arrow-container">
+                <img src="/static/images/down-arrow-icon.svg"
+                alt="Arrow SVG" class="down-arrow-icon">
+            </div>
+        </div>
     </div>
 </section>
 {% endblock %}
 
 {% block gene_info %}
-<section class="plot-section">
+<section class="plot-section" id="plot-section">
     <div class="section-container">
         <!-- Main Volcano Plot -->
         <div id="volcano-plot">
@@ -36,7 +46,15 @@
             {{ script|safe }}
         </div>
 
-        <div id="gene-info-box"></div>
+        <div id="gene-info-box">
+            <div class="gene-header fade-in">
+			</div>
+
+            <div class="plot-hint visible">
+                <h2>Looking for something?</h2>
+                <h3>> Select a plot marker to start</h3>
+            </div>
+        </div>
     </div>
 
     <div class="sentinel"></div>
@@ -52,6 +70,7 @@
 					<img src="/static/images/donor-icon.svg"
 						alt="Donor SVG" class="donor-icon">
 				</div>
+                <h2></h2>
 			</div>
 
             <div class="donor-info"></div>
@@ -85,9 +104,17 @@
         </div>
 
         <div class="second-ref-row-container">
-            <div class="second-row-ref1"></div>
-            <div class="main-ref"></div>
-            <div class="second-row-ref2"></div>
+            <div class="ref-rows">
+                <div class="second-row-ref1"></div>
+                <div class="main-ref"></div>
+                <div class="second-row-ref2"></div>
+            </div>
+
+            <div class="read-article-box">
+                <h2>
+                    <i>> Click any link to read the article</i>
+                </h2>
+            </div>
         </div>
 
         <div class="last-ref-row-container">
@@ -101,7 +128,7 @@
 
 {% block file_import_section %}
 <section class="file-import-section">
-    <div class="import-container">
+    <div class="import-container" id="import-container">
         <h1>> Want a different data sample? Import <span style="color: #0B31D2">your own</span>!</h1>
 
         <div class="form-container">

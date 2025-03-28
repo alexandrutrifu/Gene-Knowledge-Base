@@ -9,7 +9,7 @@ ALL_REF_PROMPT = """
     Extract the articles and format a JSON object for each one using this example:
     
     {
-        "ref_id": <<pubmed_id>>,
+        "ref_url": "https://pubmed.ncbi.nlm.nih.gov/<<pubmed_id>>",
         "conclusion": "<<Gene name>> is involved in <<X>> and is important for <<Y>>."
     }
     
@@ -21,8 +21,8 @@ RELEVANT_REF_PROMPT = """
     Extract 7 relevant articles and format a JSON object for each one using this example:
     
     {
-        "ref_id": <<pubmed_id>>,
-        "conclusion": "<<Gene name>> is involved in <<X>> and is important for <<Y>>."
+        "ref_url": "https://pubmed.ncbi.nlm.nih.gov/<<pubmed_id>>",
+        "conclusion": "<<Gene name>> is involved in <<X>> and is important for <<Y>>." (keywords should be enclosed in <strong></strong>)
     }
     
     Return your response as a single JSON array with no text or explanation around it.

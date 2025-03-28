@@ -10,25 +10,61 @@ function insertReferences(references, parent_section) {
 	console.log("conclusion:", references[1]?.conclusion);
 
 	first_row_ref1.innerHTML = `
-		<h2>${references[0].conclusion}</h2>
+		<h2>
+			<a href="${references[1].ref_url}" target="_blank"
+               style="text-decoration: none; color: inherit">${references[1].conclusion}</a>
+        </h2>
 	`;
 
 	first_row_ref2.innerHTML = `
-		<h2>${references[1].conclusion}</h2>
+		<h2>
+			<a href="${references[2].ref_url}" target="_blank"
+               style="text-decoration: none; color: inherit">${references[2].conclusion}</a>
+        </h2>
 	`;
 
 	// Next three references go on the second row
+	const second_row_ref1 = parent_section.querySelector(".second-row-ref1");
+	const second_row_ref2 = parent_section.querySelector(".second-row-ref2");
+	const main_ref = parent_section.querySelector(".main-ref");
+
+	second_row_ref1.innerHTML = `
+		<h2>
+			<a href="${references[3].ref_url}" target="_blank"
+               style="text-decoration: none; color: inherit">${references[3].conclusion}</a>
+        </h2>
+	`;
+
+	main_ref.innerHTML = `
+		<h2>
+			<a href="${references[0].ref_url}" target="_blank"
+               style="text-decoration: none; color: inherit">${references[0].conclusion}</a>
+        </h2>
+	`;
+
+	second_row_ref2.innerHTML = `
+		<h2>
+			<a href="${references[4].ref_url}" target="_blank"
+               style="text-decoration: none; color: inherit">${references[4].conclusion}</a>
+        </h2>
+	`;
 
 	// Final references go on the last row
 	const last_row_ref1 = parent_section.querySelector(".last-row-ref1");
 	const last_row_ref2 = parent_section.querySelector(".last-row-ref2");
 
 	last_row_ref1.innerHTML = `
-		<h2>${references[5].conclusion}</h2>
+		<h2>
+			<a href="${references[5].ref_url}" target="_blank"
+               style="text-decoration: none; color: inherit">${references[5].conclusion}</a>
+        </h2>
 	`;
 
 	last_row_ref2.innerHTML = `
-		<h2>${references[6].conclusion}</h2>
+		<h2>
+			<a href="${references[6].ref_url}" target="_blank"
+               style="text-decoration: none; color: inherit">${references[6].conclusion}</a>
+        </h2>
 	`;
 }
 
@@ -51,18 +87,4 @@ export async function createReferenceSection(gene_info) {
 		.then((references) => {
 			insertReferences(references, reference_section);
 		})
-
-	// observeReferenceSentinel();
-	//
-	// // Get gene ID from route
-	// const pathTokens = window.location.pathname.split("/");
-	// const gene_id = pathTokens[pathTokens.indexOf("gene") + 1];
-	//
-	// // Fetch donor information from Flask backend and populate containers
-	// const gene_info = await fetch(`/gene/${gene_id}/all`)
-	// 								.then(response => response.json());
-	//
-	// console.log(gene_info);
-	//
-	// showReferenceInfo(gene_info, );
 }

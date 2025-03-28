@@ -37,7 +37,6 @@
 
 			transition: transform 0.8s ease-in-out;
 
-			// Add drop shadow
 			filter: drop-shadow(20px 20px 8px rgba(0, 0, 0, 0.2));
 
 			&.shift-left {
@@ -51,10 +50,11 @@
 			flex-direction: column;
 			gap: 0.5rem;
 			max-width: 38%;
+			justify-content: center;
 
 			margin-left: -3rem;
 
-			opacity: 0;
+			opacity: 1;
 			transition: opacity 0.5s ease;
 
 			&.active {
@@ -62,9 +62,33 @@
 				opacity: 1;
 			}
 
+			.plot-hint {
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+				align-items: center;
+				height: auto;
+
+				transition: opacity 0.5s ease;
+
+				h2 {
+					font-family: "Iosevka Slab", serif;
+					font-weight: bold;
+					font-size: 2.5rem;
+					color: #191919;
+					margin: 0;
+				}
+
+				h3 {
+					font-family: "Iosevka Slab", serif;
+					font-weight: normal;
+					color: $persian_blue;
+				}
+			}
+
 			.gene-header {
 				flex: 1;
-				display: flex;
+				display: none;
 				flex-direction: row;
 				max-height: 6rem;
 
@@ -87,6 +111,8 @@
 					font-size: 2.2rem;
 					vertical-align: center;
 					color: black;
+					margin-top: 2rem;
+					margin-bottom: 2rem;
 				}
 			}
 
