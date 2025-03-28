@@ -24,8 +24,6 @@ document.addEventListener("DOMContentLoaded", function () {
 					createDonorSection();
 				} else if (!ending_div && arrowInserted) {
 					arrowInserted = false;
-
-					// TODO: remove the following sections from DOM
 				}
 			}
 		}
