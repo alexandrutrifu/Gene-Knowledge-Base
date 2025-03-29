@@ -44,7 +44,9 @@ python run.py
 ```
 
 ### Environment Setup
-Create a `.env` file in the root directory and add the following:`OPENAI_API_KEY=your_openai_key_here`
+Update your system environment variables to contain the following:`OPENAI_API_KEY=your_openai_key_here`
+
+**OR** manually pass your OpenAI key string to the OpenAI constructor call in `ai_interaction.py`.
 
 ### After running the server
 Visit [http://127.0.0.1:5000](http://127.0.0.1:5000) in your browser.
