@@ -59,11 +59,24 @@ def get_donor_data(df, gene_id):
 	return yd_values, od_values
 
 def clean_dataframe(df):
-	# Adjust the p-value to be negative log10
-	df['adj.P.Val'] = -1 * df['adj.P.Val'].apply(np.log10)
+	if 'adj.P.Val' in df.columns:
+		# Adjust the p-value to be negative log10
+		df['adj.P.Val'] = -1 * df['adj.P.Val'].apply(np.log10)
 
-	# Rename problematic column name
-	df.rename(columns={'adj.P.Val': 'adj_P_Val'}, inplace=True)
+		# Rename problematic column name
+		df.rename(columns={'adj.P.Val': 'adj_P_Val'}, inplace=True)
+
+	if 'EntrezGeneID' in df.columns:
+		# For multiple related IDs in one field, keep the main ID
+		df['EntrezGeneID'] = df['EntrezGeneID'].apply(
+			lambda field: field.split('.')[0] if isinstance(field, str) and '.' in field else field
+		)
+
+	if 'EntrezGeneSymbol' in df.columns:
+		# Reformat the symbol field for multiple related genes
+		df['EntrezGeneSymbol'] = df['EntrezGeneSymbol'].apply(
+			lambda field: field.replace(" ", " & ") if isinstance(field, str) else field
+		)
 
 def retrieve_dataframes():
 	# Get dataframes from gene database
@@ -71,6 +84,7 @@ def retrieve_dataframes():
 	df_limma = get_dataframe("s4b_limma")
 
 	clean_dataframe(df_limma)
+	clean_dataframe(df_values)
 
 	return df_values, df_limma
 
