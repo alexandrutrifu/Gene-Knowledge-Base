@@ -87,7 +87,7 @@ function fetchGeneInfo(gene_id, gene_info_text_box) {
  *
  * @param gene_info_container Container to localize inside the DOM
  */
-function showGeneInfo(gene_info_container) {
+function showGeneInfo(gene_info_container, df_limma, index, gene_id) {
 	if (gene_info_container) {
 		gene_info_container.style.justifyContent = "normal";
 
@@ -139,36 +139,13 @@ function showGeneInfo(gene_info_container) {
 					endingDiv.className = "ending-div";
 
 					gene_info_text_box.appendChild(endingDiv);
-					console.log("finalized")
 			});
 		}
 	}
 }
 
-// --- Main workflow starts from here ---
-// TODO: refactor into methods
-
-const indices = src.selected.indices;
-const plot_section = document.querySelector('.plot-section');
-
-// Monitor active fetch requests through global variable
-let active_fetch_controller = null
-
-// Gene Info Box element
-const gene_info_container = document.getElementById("gene-info-box");
-
-// Save original axis ranges
-if (x_range.orig_start === undefined) {
-	x_range.orig_start = x_range.start;
-	x_range.orig_end = x_range.end;
-	y_range.orig_start = y_range.start;
-	y_range.orig_end = y_range.end;
-}
-
-// Zoom on selected marker
-if (indices.length > 0) {
+function markerSelect() {
 	var index = indices[0];
-	console.log(index);
 
 	var df_limma = src.data;
 	var x = df_limma['logFC'][index];
@@ -224,46 +201,11 @@ if (indices.length > 0) {
 		plot_section.classList.add("shift-left");
 	}
 
-	showGeneInfo(gene_info_container);
+	showGeneInfo(gene_info_container, df_limma, index, gene_id);
+}
 
-} else {
-	// No marker selected = Zoom out
-	if (x_range.orig_start !== undefined) {
-		var final_x_start = x_range.orig_start;
-		var final_x_end = x_range.orig_end;
-		var final_y_start = y_range.orig_start;
-		var final_y_end = y_range.orig_end;
-
-		var init_x_start = x_range.start;
-		var init_x_end = x_range.end;
-		var init_y_start = y_range.start;
-		var init_y_end = y_range.end;
-
-		var duration = 600;
-		var steps = 150;
-		var step_duration = duration / steps;
-		var current_step = 0;
-
-		function animateZoomOut() {
-			current_step++;
-
-			// Interpolation factor
-			var t = current_step / steps;
-
-			x_range.start = init_x_start + t * (final_x_start - init_x_start);
-			x_range.end = init_x_end + t * (final_x_end - init_x_end);
-			y_range.start = init_y_start + t * (final_y_start - init_y_start);
-			y_range.end = init_y_end + t * (final_y_end - init_y_end);
-
-			if (current_step < steps) {
-				setTimeout(animateZoomOut, step_duration);
-			}
-		}
-
-		animateZoomOut();
-	}
-
-	// Gene Info Box
+function resetContainers() {
+	// Reset Gene Info section
 	if (gene_info_container) {
 		gene_info_container.classList.remove("active");
 
@@ -335,4 +277,66 @@ if (indices.length > 0) {
 		// Change URL
 		history.pushState({}, '', `/`);
 	}
+}
+
+/* --- Main workflow starts from here --- */
+
+const indices = src.selected.indices;
+const plot_section = document.querySelector('.plot-section');
+
+// Monitor active fetch requests through global variable
+let active_fetch_controller = null
+
+// Gene Info Box element
+const gene_info_container = document.getElementById("gene-info-box");
+
+// Save original axis ranges
+if (x_range.orig_start === undefined) {
+	x_range.orig_start = x_range.start;
+	x_range.orig_end = x_range.end;
+	y_range.orig_start = y_range.start;
+	y_range.orig_end = y_range.end;
+}
+
+// Zoom on selected marker
+if (indices.length > 0) {
+	markerSelect();
+} else {
+	// No marker selected = Zoom out
+	if (x_range.orig_start !== undefined) {
+		var final_x_start = x_range.orig_start;
+		var final_x_end = x_range.orig_end;
+		var final_y_start = y_range.orig_start;
+		var final_y_end = y_range.orig_end;
+
+		var init_x_start = x_range.start;
+		var init_x_end = x_range.end;
+		var init_y_start = y_range.start;
+		var init_y_end = y_range.end;
+
+		var duration = 600;
+		var steps = 150;
+		var step_duration = duration / steps;
+		var current_step = 0;
+
+		function animateZoomOut() {
+			current_step++;
+
+			// Interpolation factor
+			var t = current_step / steps;
+
+			x_range.start = init_x_start + t * (final_x_start - init_x_start);
+			x_range.end = init_x_end + t * (final_x_end - init_x_end);
+			y_range.start = init_y_start + t * (final_y_start - init_y_start);
+			y_range.end = init_y_end + t * (final_y_end - init_y_end);
+
+			if (current_step < steps) {
+				setTimeout(animateZoomOut, step_duration);
+			}
+		}
+
+		animateZoomOut();
+	}
+
+	resetContainers();
 }
