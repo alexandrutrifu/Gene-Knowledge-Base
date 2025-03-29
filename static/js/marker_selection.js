@@ -29,6 +29,16 @@ function fetchGeneInfo(gene_id, gene_info_text_box) {
 				function readStream() {
 					reader.read().then(({done, value}) => {
 						if (done) {
+							// Reset message is inserted after text generation
+							const reset_message = document.createElement("p");
+
+							reset_message.style.color = "#0B31D2";
+							reset_message.innerHTML = `
+								<i>Click anywhere on the plot to start over.</i>
+							`;
+
+							gene_info_text_box.appendChild(reset_message);
+
 							resolve();
 							return;
 						}
@@ -103,17 +113,35 @@ function showGeneInfo(gene_info_container) {
 		// Get gene information div element to append text in
 		let gene_info_text_box = gene_info_container.querySelector(".gene-info");
 
-		fetchGeneInfo(gene_id, gene_info_text_box)
-			.then(() => {
-				// Insert empty div to signal the end of the stream (event trigger)
-				let endingDiv = document.createElement("div")
+		// If the gene ID field is null, return a proper message
+		if (gene_id == null)  {
+			const null_message = document.createElement("p");
 
-				endingDiv.style.height = "0px";
-				endingDiv.className = "ending-div";
+			null_message.textContent = "No information is available at the moment.";
 
-				gene_info_text_box.appendChild(endingDiv);
-				console.log("finalized")
-		});
+			gene_info_text_box.appendChild(null_message);
+
+			const reset_message = document.createElement("p");
+
+			reset_message.style.color = "#0B31D2";
+			reset_message.innerHTML = `
+				<i>Click anywhere on the plot to start over.</i>
+			`;
+
+			gene_info_text_box.appendChild(reset_message);
+		} else {
+			fetchGeneInfo(gene_id, gene_info_text_box)
+				.then(() => {
+					// Insert empty div to signal the end of the stream (event trigger)
+					let endingDiv = document.createElement("div")
+
+					endingDiv.style.height = "0px";
+					endingDiv.className = "ending-div";
+
+					gene_info_text_box.appendChild(endingDiv);
+					console.log("finalized")
+			});
+		}
 	}
 }
 
