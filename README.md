@@ -12,14 +12,15 @@ This project consists in the prototype of a **full-stack web service** aimed tow
 - Extracted & parsed public information from the **PubMed database** on the purpose and implications of gene regulation, using **REST API requests**.
 - Summarized and concluded analytical results with the help of **LLM processing** and **OpenAI API** calls, using **self-defined prompts**.
 - Included the option to **import other statistical datasets** (_.csv_ files) in order to assess their relevance through chosen **parametric tests**.
+- **Cleaned the provided data** and handled edge cases for bad field content.
 
 ## 🧰 Tech Stack
-| Layer       | Technologies   |
-|-------------|----------------|
-| Frontend    | _HTML, CSS, JS_ |
-| Backend     | _Python, Flask_ |
-| Visualization | _Bokeh_ |
-| Data        | _Gene datasets, custom samples, PubMed references_|
+| Layer       | Technologies                                       |
+|-------------|----------------------------------------------------|
+| Frontend    | _HTML, CSS, JS_                                    |
+| Backend     | _Python, Flask, SQLite_                            |
+| Visualization | _Bokeh_                                            |
+| Data        | _Gene datasets, custom samples, PubMed references_ |
 
 ## 🖥️ Getting Started
 
