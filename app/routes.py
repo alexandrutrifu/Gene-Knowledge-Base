@@ -26,9 +26,9 @@ def index():
 		# Use the original dataframe
 		dataframes.df_limma = dataframes.original_df_limma.copy()
 
-	script, div = generate_volcano_plot(dataframes.df_values, dataframes.df_limma)
+	script, div, resources = generate_volcano_plot(dataframes.df_values, dataframes.df_limma)
 
-	return render_template('home.html', script=script, div=div)
+	return render_template('home.html', script=script, div=div, resources=resources)
 
 @main_bp.route('/gene/<gene_id>')
 def get_gene_info(gene_id):

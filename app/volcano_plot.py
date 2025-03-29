@@ -5,6 +5,7 @@ from bokeh.plotting import figure, output_file, show
 from bokeh.embed import components
 from bokeh.models import ColumnDataSource, HoverTool, TapTool, CustomJS, LogColorMapper, ColorBar
 from bokeh.palettes import Blues9, linear_palette
+from bokeh.resources import INLINE
 
 from .data_interaction import load_js_callback
 
@@ -80,8 +81,9 @@ def generate_volcano_plot(df_values, df_limma):
 	source.selected.js_on_change("indices", callback)
 
 	script, div = components(p)
+	bokeh_resources = INLINE.render()
 
-	return script, div
+	return script, div, bokeh_resources
 
 def get_density_map(df):
 	# Create density histogram
