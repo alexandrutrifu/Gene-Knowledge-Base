@@ -27,20 +27,20 @@ This project consists in the prototype of a **full-stack web service** aimed tow
 ### Installation
 ```bash
 # Clone the repo
-git clone https://github.com/your-username/gene-knowledge-base.git
+git clone https://github.com/alexandrutrifu/Gene-Knowledge-Base
 
 # Navigate to project directory
-cd gene-knowledge-base
+cd Gene-Knowledge-Base
 
 # Set up virtual environment (optional)
-python -m venv venv
+python3 -m venv venv
 source venv/bin/activate  # or venv\Scripts\activate on Windows
 
 # Install dependencies
-pip install -r requirements.txt
+pip3 install -r requirements.txt
 
 # Run Flask server
-python run.py
+python3 run.py
 ```
 
 ### Environment Setup
