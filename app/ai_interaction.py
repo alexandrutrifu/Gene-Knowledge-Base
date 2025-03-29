@@ -70,6 +70,8 @@ DONOR_ANALYSIS_PROMPT = """
     Are there any outliers - and are they relevant?
     """
 
+OPENAI_API_KEY = "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"
+
 def callOpenAIStream(dev_prompt, user_request):
     """ Returns streaming generator for Open AI interrogation.
 
@@ -77,7 +79,7 @@ def callOpenAIStream(dev_prompt, user_request):
     :param user_request: Request to fetch data for.
     :return: Open AI streaming generator
     """
-    client = OpenAI(api_key=environ['OPENAI_API_KEY'])
+    client = OpenAI(api_key=OPENAI_API_KEY)
 
     response = client.chat.completions.create(
         model="gpt-4o-mini",
@@ -107,7 +109,7 @@ def callOpenAI(dev_prompt, user_request):
     :param user_request: Request to fetch data for.
     :return: Open AI response
     """
-    client = OpenAI(api_key=environ['OPENAI_API_KEY'])
+    client = OpenAI(api_key=OPENAI_API_KEY)
 
     response = client.chat.completions.create(
         model="gpt-4o-mini",
