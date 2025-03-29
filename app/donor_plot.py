@@ -9,8 +9,8 @@ from .data_interaction import get_donor_data
 def get_age_comparison_plot(df, gene_id):
 	""" Compares protein concentration values in different age groups through a box plot.
 
+	:param gene_id: Gene for which to inspect the samples.
 	:param df: Dataframe to get donor samples from.
-	:param gene_name: Gene for which to inspect the samples.
 	:return: Script/Div HTML elements for the box plot.
 	"""
 
