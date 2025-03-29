@@ -70,12 +70,6 @@ DONOR_ANALYSIS_PROMPT = """
     Are there any outliers - and are they relevant?
     """
 
-USER_REQUEST_CONTENT = """
-                Gene: Growth/differentiation factor 15
-                logFC: 0.8737907642484315
-                adjPVal: 7.184809761833215
-                """
-
 def callOpenAIStream(dev_prompt, user_request):
     """ Returns streaming generator for Open AI interrogation.
 
