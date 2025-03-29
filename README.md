@@ -151,3 +151,4 @@ Using another LLM prompt, the application selects **7 most relevant articles**, 
 **5) Public Dataset Accessibility**:
 - By imposing a universal datasheet format, the application could parse and handle (other) public databases, without the need of a local file upload. These external databases could be refactored towards the desired format (and field composition) with the help of LLM processing.
 
+**6) Fix Different Screen Resolution Bugs**
