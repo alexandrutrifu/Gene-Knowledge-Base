@@ -27,7 +27,7 @@ This project consists in the prototype of a **full-stack web service** aimed tow
 ### Installation
 ```bash
 # Clone the repo
-git clone https://github.com/alexandrutrifu/Gene-Knowledge-Base
+git clone https://github.com/alexandrutrifu/Gene-Knowledge-Base.git
 
 # Navigate to project directory
 cd Gene-Knowledge-Base
