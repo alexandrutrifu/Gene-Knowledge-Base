@@ -145,6 +145,8 @@ function showGeneInfo(gene_info_container, df_limma, index, gene_id) {
 }
 
 function markerSelect() {
+	resetContainers();
+
 	var index = indices[0];
 
 	var df_limma = src.data;
@@ -284,8 +286,9 @@ function resetContainers() {
 const indices = src.selected.indices;
 const plot_section = document.querySelector('.plot-section');
 
-// Monitor active fetch requests through global variable
+// Monitor active fetch requests through global variables
 let active_fetch_controller = null
+let donor_fetch_controller = null;
 
 // Gene Info Box element
 const gene_info_container = document.getElementById("gene-info-box");

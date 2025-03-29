@@ -125,6 +125,13 @@ function showDonorInfo(gene_info, parent_section) {
 		Age-group Analysis: <span style="color: #C93175">${gene_info["EntrezGeneSymbol"]}</span>
 	`;
 
+	// Remove leftover containers
+	const scroll_down = parent_section.querySelector(".scroll-down-container");
+
+	if (scroll_down) {
+		scroll_down.remove();
+	}
+
 	fetchDonorInfo(gene_info["EntrezGeneID"], parent_section)
 		.then(() => {
 			// Insert scroll down container
