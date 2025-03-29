@@ -1,5 +1,3 @@
-// import {observeReferenceSentinel } from "./observe_reference_section.js";
-
 function insertReferences(references, parent_section) {
 	// First two references go on the first row
 	const first_row_ref1 = parent_section.querySelector(".first-row-ref1");

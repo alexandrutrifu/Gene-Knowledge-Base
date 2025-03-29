@@ -37,7 +37,6 @@ export function animateArrow(arrow) {
 	const observer = new IntersectionObserver(entries => {
 		for (const entry of entries) {
 			if (entry.isIntersecting) {
-				console.log("happening");
 				if (!is_moving) {
 					startArrowBounceLoop(arrow);
 				}
